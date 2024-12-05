@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import FilterandSearch from "./FilterandSearch.vue";
+import FilterandSearch from "../components/FilterandSearch.vue";
 
 export default {
   name: "LostItems",
