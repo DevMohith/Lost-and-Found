@@ -22,12 +22,12 @@ const routes = [
     component: RegisterPage,
   },
   {
-    path: '/lostitems',
+    path: '/lostItems',
     name: 'LostItems',
     component: LostItems,
   },
   {
-    path: '/reportlost',
+    path: '/reportLost',
     name: 'ReportLost',
     component: ReportLost,
   }

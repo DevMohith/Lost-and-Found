@@ -8,8 +8,8 @@
           elit, scelerisque fringilla risus non, fringilla imperdiet lectus.
         </p>
         <div class="buttons">
-          <button class="btn-danger">Report Lost Item</button>
-          <button class="btn-outline-danger">Lost Item</button>
+          <router-link to="/reportLost"><button class="btn-danger">Report Lost Item</button></router-link>
+          <router-link to="/lostItems"><button class="btn-outline-danger">Lost Item</button></router-link>
         </div>
       </div>
       <div class="image-content">
@@ -28,8 +28,8 @@
           elit, scelerisque fringilla risus non, fringilla imperdiet lectus.
         </p>
         <div class="buttons">
-          <button class="btn-success">Report Found Item</button>
-          <button class="btn-outline-success">Found Item</button>
+          <router-link to="/reportFound"><button class="btn-success">Report Found Item</button></router-link>
+          <router-link to="/foundItems"><button class="btn-outline-success">Found Item</button></router-link>
         </div>
       </div>
     </section>
