@@ -1,16 +1,38 @@
 <template>
   <div class="homepage">
-    <h1>Welcome to Our Website</h1>
-    <p>Click below to log in and access your account.</p>
-    <router-link to="/login">
-      <button class="btn-login">Go to Login Page</button>
-    </router-link>
-    <router-link to="/lostitems">
-      <button class="btn-login">Go to Lost Items</button>
-    </router-link>
-    <router-link to="/reportlost">
-      <button class="btn-login">Go to Report Lost</button>
-    </router-link>
+    <section class="section lost">
+      <div class="text-content">
+        <h2><span class="highlight">Lost</span> an Item? No worries!</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce orci
+          elit, scelerisque fringilla risus non, fringilla imperdiet lectus.
+        </p>
+        <div class="buttons">
+          <button class="btn-danger">Report Lost Item</button>
+          <button class="btn-outline-danger">Lost Item</button>
+        </div>
+      </div>
+      <div class="image-content">
+        <img src="../assets/lostLogo.png" alt="Lost Logo" />
+      </div>
+    </section>
+
+    <section class="section found">
+      <div class="image-content">
+        <img src="../assets/foundLogo.png" alt="Found Logo" />
+      </div>
+      <div class="text-content">
+        <h2><span class="highlight">Found</span> an Item? Good you are!</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce orci
+          elit, scelerisque fringilla risus non, fringilla imperdiet lectus.
+        </p>
+        <div class="buttons">
+          <button class="btn-success">Report Found Item</button>
+          <button class="btn-outline-success">Found Item</button>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -21,41 +43,77 @@ export default {
 </script>
 
 <style scoped>
-.homepage {
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.section {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  text-align: center;
-  background-color: #f5f7fa;
+  justify-content: space-between;
+  margin: 40px 100px;
+  padding: 20px;
 }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+.section .text-content {
+  max-width: 50%;
 }
 
-p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+.section h2 {
+  font-size: 1.8rem;
 }
 
-router-link {
-  padding-top: 20px;
+.section .highlight {
+  color: #007bff;
 }
 
-.btn-login {
+.section p {
+  color: #666;
+  margin: 20px 0;
+}
+
+.section .buttons button {
+  margin-right: 15px;
   padding: 10px 20px;
-  font-size: 1rem;
-  color: #ffffff;
-  background-color: #0d47a1;
-  border: none;
   border-radius: 4px;
+  font-weight: bold;
   cursor: pointer;
 }
 
-.btn-login:hover {
-  background-color: #1565c0;
+.btn-danger {
+  background: #dc3545;
+  color: white;
+  border: none;
 }
+
+.btn-outline-danger {
+  background: transparent;
+  border: 2px solid #dc3545;
+  color: #dc3545;
+}
+
+.btn-success {
+  background: #28a745;
+  color: white;
+  border: none;
+}
+
+.btn-outline-success {
+  background: transparent;
+  border: 2px solid #28a745;
+  color: #28a745;
+}
+
+.image-content img {
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+}  
 </style>
