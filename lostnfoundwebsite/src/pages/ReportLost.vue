@@ -2,7 +2,10 @@
   <div id="app" class="app">
     <header class="header">
       <div class="logo">LOST & FOUND</div>
-      
+      <nav class="nav">
+        <router-link class="nav-link" to="/" >Home</router-link>
+        <button class="sign-out">Sign Out</button>
+      </nav>
     </header>
 
     <h1 class="title">Report Lost</h1>
