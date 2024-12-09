@@ -56,7 +56,7 @@ export default {
     },
     methods: {
     async onSubmit() {
-        if (this.matriculationNumber.length === 6 && this.email && this.password.length > 6) {
+        if (this.matriculationNumber.length === 6 && this.email && this.password.length > 5) {
             try {
                 const response = await fetch(`${baseURL}/users?matriculationNumber=${this.matriculationNumber}`);
                 const data = await response.json();
