@@ -3,9 +3,17 @@
     <header class="header">
       <div class="logo">LOST & FOUND</div>
       <nav class="nav">
-        <router-link class="nav-link" to="/" >Home</router-link>
-        <button class="sign-out">Sign Out</button>
-      </nav>
+    <div class="router-links">
+      <router-link class="nav-link" to="/">Home</router-link>
+      <router-link class="nav-link" to="/LostItems">Lost Items</router-link>
+      <router-link class="nav-link active" to="/ReportLost">Report Lost</router-link>
+      <router-link class="nav-link" to="/">Report Found</router-link>
+    </div>
+    <div class="profile-actions">
+      <router-link class="nav-link" to="/">Profile</router-link>
+      <button class="sign-out">Sign Out</button>
+    </div>
+  </nav>
     </header>
 
     <h1 class="title">Report Lost</h1>
@@ -16,7 +24,7 @@
         <div class="left-section">
           <div class="form-group">
             <label for="item-name">Item Name</label>
-            <input class="box" type="text" id="item-name" placeholder="Nothing Phone" />
+            <input class="box" type="text" id="item-name" placeholder="Nothing Phone 2" />
           </div>
 
           <div class="form-group">
@@ -42,7 +50,7 @@
 
           <div class="form-group">
             <label for="item-brand">Item Brand</label>
-            <input class="box" type="text" id="item-brand" placeholder="Apple" />
+            <input class="box" type="text" id="item-brand" placeholder="Nothing" />
           </div>
         </div>
 
@@ -107,21 +115,44 @@ export default {
   gap: 10px;
 }
 
+.nav {
+  display: flex;
+  
+  align-items: center;
+  gap: 10px;
+}
+
+.router-links {
+  display: flex;
+  gap: 15px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.profile-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .nav-link {
   text-decoration: none;
   color: #000;
   padding: 5px 10px;
 }
 
+
 .nav-link.active {
-  border-bottom: 2px solid #6200ee;
-  color: #6200ee;
+  border-bottom: 2px solid ;
+  color: #0469ff;
 }
 
 .sign-out {
-  border: 1px solid #6200ee;
+  width: 100px;
+  height: 40px;
+  border: 1px solid #0469ff;
   background-color: #fff;
-  color: #6200ee;
+  color: #0469ff;
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
