@@ -1,4 +1,5 @@
 <template>
+    <Navbar/>
     <div class="login-page">
       <!-- Left Section -->
       <div class="illustration">
@@ -8,16 +9,9 @@
       <!-- Right Section -->
       <div class="login-form">
         <div class="form-container">
-          <div class="back-button">
-            <router-link to="/">
-              <button class="btn-back">
-                <span>&larr;</span>
-              </button>
-            </router-link>
-          </div>
           <h2 :style="{ color: headerColor }">Sign In</h2>
-            <form @submit.prevent="handleLogin">
-            <FormInput v-model="username" label="Username" type="text" placeholder="Enter your username" labelColor="#002246" />
+            <form @submit.prevent="onSubmit">
+            <FormInput v-model="email" label="Email" type="text" placeholder="Enter your email" labelColor="#002246" />
             <FormInput v-model="password" label="Password" type="password" placeholder="Enter your password" labelColor="#002246" />
             <button type="submit" class="btn-sign-in">Sign In</button>
           </form>
@@ -28,18 +22,27 @@
         </div>
       </div>
     </div>
+    <Footer/>
   </template>
+  
   
   <script>
   import FormInput from "@/components/FormInput.vue";
+  import Navbar from "@/components/Navbar.vue";
+  import Footer from "@/components/Footer.vue";
+
+  import { baseURL } from "../url";
+  import bcrypt from "bcryptjs";
   
   export default {
     components: {
       FormInput,
+      Navbar,
+      Footer,
     },
     data() {
       return {
-        username: "",
+        email: "",
         password: "",
         headerColor: "#002246",
         textColor: "#D14B3F",
@@ -47,14 +50,35 @@
       };
     },
     methods: {
-      handleLogin() {
-        this.log("Logging in with:", { username: this.username, password: this.password });
-        alert("Logged In!");
-      },
-      log(message, data = null) {
-        console.log(message, data);
-      },
+    async onSubmit() {
+      if (this.email && this.password) {
+        try {
+          const response = await fetch(`${baseURL}/users?email=${this.email}`);
+          const data = await response.json();
+
+          if (data.length > 0) {
+            const user = data[0];
+            const isPasswordValid = bcrypt.compareSync(this.password, user.password);
+
+            if (isPasswordValid) {
+              alert("Login successful!");
+              this.$store.commit("userAuthenticated", user.email);
+              this.$router.push("/");
+            } else {
+              alert("Invalid credentials. Please try again.");
+            }
+          } else {
+            alert("No account found with this email. Please register first.");
+          }
+        } catch (error) {
+          console.error("Login error:", error);
+          alert("Something went wrong. Please try again.");
+        }
+      } else {
+        alert("Please fill in all fields.");
+      }
     },
+  },
   };
   </script>
   
@@ -103,21 +127,6 @@
   }
   
   /* Buttons */
-  .btn-back {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    color: #002246;
-    cursor: pointer;
-  }
-  
-  .btn-back:hover {
-    text-decoration: underline;
-  }
-  
   .btn-sign-in {
     width: 80%;
     padding: 10px;

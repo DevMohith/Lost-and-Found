@@ -1,21 +1,6 @@
 <template>
   <div id="app" class="app">
-    <header class="header">
-      <div class="logo">LOST & FOUND</div>
-      <nav class="nav">
-    <div class="router-links">
-      <router-link class="nav-link" to="/">Home</router-link>
-      <router-link class="nav-link" to="/LostItems">Lost Items</router-link>
-      <router-link class="nav-link active" to="/ReportLost">Report Lost</router-link>
-      <router-link class="nav-link" to="/">Report Found</router-link>
-    </div>
-    <div class="profile-actions">
-      <router-link class="nav-link" to="/">Profile</router-link>
-      <button class="sign-out">Sign Out</button>
-    </div>
-  </nav>
-    </header>
-
+    <Navbar/>
     <h1 class="title">Report Lost</h1>
 
     <main class="main">
@@ -107,6 +92,7 @@
 </template>
 
 <script>
+
 export default {
   name: "ReportLostPage",
   //Matriculation id script
@@ -136,6 +122,7 @@ export default {
     // Fetch user details when the component mounts
     this.fetchUserDetails();
   }
+
 
 };
 </script>

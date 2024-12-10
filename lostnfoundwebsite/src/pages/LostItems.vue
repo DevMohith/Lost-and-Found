@@ -1,21 +1,11 @@
 <template>
   <div class="lost-items-page">
-
+    <Navbar/>
     <div class="sectionHeading"><h1>Lost Items</h1></div>
     <!-- Filter and Search Section -->
     <FilterandSearch />
     <div class="product-grid">
-      <div
-        class="product-card"
-        v-for="lostItem in lostItems"
-        :key="lostItem.id"
-      >
-        <img :src="lostItem.image" :alt="lostItem.name" class="product-image" />
-        <h3 class="product-name">{{ lostItem.name }}</h3>
-        <p class="product-description">{{ lostItem.location }}</p>
-        <p class="product-description">{{ lostItem.description }}</p>
-        <div class="buttonDiv"><button class="view-more-btn">View More</button></div>        
-      </div>
+      <LostItem v-for="lostItem in lostItems" :key="lostItem.id" :lostitem="lostItem"/>
     </div>
     
   </div>
@@ -23,11 +13,15 @@
 
 <script>
 import FilterandSearch from "../components/FilterandSearch.vue";
+import Navbar from "../components/Navbar.vue";
+import LostItem from "../components/LostItem.vue";
 
 export default {
   name: "LostItems",
   components:{
     FilterandSearch,
+    Navbar,   
+    LostItem, 
   },
   data() {
     return {

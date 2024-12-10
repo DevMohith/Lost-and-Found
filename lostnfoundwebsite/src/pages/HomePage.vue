@@ -1,5 +1,6 @@
 <template>
   <div class="homepage">
+    <Navbar/>
     <section class="section lost">
       <div class="text-content">
         <h2><span class="highlight">Lost</span> an Item? No worries!</h2>
@@ -33,12 +34,20 @@
         </div>
       </div>
     </section>
+    <Footer/>
   </div>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
+
 export default {
   name: 'HomePage',
+  components: {
+    Navbar,
+    Footer,
+  }
 };
 </script>
 
