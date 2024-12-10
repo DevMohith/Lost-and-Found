@@ -21,7 +21,21 @@
     <main class="main">
       
       <form class="form">
-        <div class="left-section">
+
+          <div class="left-section">
+          <!-- Matriculation ID -->
+          <div class="form-group">
+            <label for="matriculation-id">Matriculation ID</label>
+            <input
+              class="box"
+              type="text"
+              id="matriculation-id"
+              v-model="user.matriculationId"
+              readonly
+              placeholder="Getting your Matriculation ID"
+            />
+          </div>
+
           <div class="form-group">
             <label for="item-name">Item Name</label>
             <input class="box" type="text" id="item-name" placeholder="Nothing Phone 2" />
@@ -30,7 +44,12 @@
           <div class="form-group">
             <label for="item-category">Item Category</label>
             <select id="item-category">
-              <option class="box">Electronics</option>
+              <option>Electronics</option>
+              <option>Bags</option>
+              <option>Clothes</option>
+              <option>Money</option>
+              <option>Cards</option>
+              <option>Others</option>
             </select>
           </div>
 
@@ -44,7 +63,13 @@
           <div class="form-group">
             <label for="lost-location">Lost Location</label>
             <select id="lost-location">
-              <option>Heidelberg</option>
+              <option>Near Blue Tower</option>
+              <option>Near MPS-3</option>
+              <option>Near BS-13</option>
+              <option>Near SRH Campus Tram station</option>
+              <option>Near SRH Gym</option>
+              <option>Others</option>
+              
             </select>
           </div>
 
@@ -54,6 +79,7 @@
           </div>
         </div>
 
+         
         <div class="right-section">
           <div class="form-group">
             <label for="item-description">Item Description</label>
@@ -83,6 +109,34 @@
 <script>
 export default {
   name: "ReportLostPage",
+  //Matriculation id script
+  data() {
+    return {
+      user: {
+        name: "Messi",
+        email: "messi@student.srhuniversity.de",
+        matriculationId: "" 
+      },
+    };
+  },
+  methods: {
+    fetchUserDetails() {
+      setTimeout(() => {
+        // Simulated API response
+        const fetchedUser = {
+          name: "Messi",
+          email: "messi@student.university.de",
+          matriculationId: "202419689" // Example matriculation ID
+        };
+        this.user = { ...this.user, ...fetchedUser };
+      }, 1000); // Simulate a 1-second network delay
+    },
+  },
+  mounted() {
+    // Fetch user details when the component mounts
+    this.fetchUserDetails();
+  }
+
 };
 </script>
 
@@ -120,6 +174,17 @@ export default {
   
   align-items: center;
   gap: 10px;
+}
+
+#matriculation-id {
+  width: 200px; /* Adjust to make it smaller */
+  padding: 8px; /* Slightly reduce padding */
+  font-size: 12px; /* Smaller text size */
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 6px; /* Rounded edges */
+  background-color: #f0f0f0; /* Light gray background */
+  color: #333; /* Darker text for contrast */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
 }
 
 .router-links {
