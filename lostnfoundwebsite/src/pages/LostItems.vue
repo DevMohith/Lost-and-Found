@@ -7,7 +7,7 @@
     <div class="product-grid">
       <LostItem v-for="lostItem in lostItems" :key="lostItem.id" :lostitem="lostItem"/>
     </div>
-    
+    <Footer/>
   </div>
 </template>
 
@@ -15,13 +15,15 @@
 import FilterandSearch from "../components/FilterandSearch.vue";
 import Navbar from "../components/Navbar.vue";
 import LostItem from "../components/LostItem.vue";
+import Footer from '@/components/Footer.vue';
 
 export default {
   name: "LostItems",
   components:{
     FilterandSearch,
     Navbar,   
-    LostItem, 
+    LostItem,
+    Footer, 
   },
   data() {
     return {

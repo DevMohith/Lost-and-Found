@@ -89,12 +89,19 @@
       <button type="submit" class="submit-button">Submit Lost Item</button>
     </main>
   </div>
+  <Footer/>
 </template>
 
 <script>
+import Navbar from "../components/Navbar.vue";
+import Footer from '@/components/Footer.vue';
 
 export default {
   name: "ReportLostPage",
+  components:{
+    Navbar,
+    Footer,
+  },
   //Matriculation id script
   data() {
     return {
