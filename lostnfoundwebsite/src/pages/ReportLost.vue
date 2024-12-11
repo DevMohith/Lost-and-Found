@@ -124,9 +124,9 @@ export default {
       }, 1000);
     },
   },
-  mounted() {git 
-    this.fetchUserDetails();
-  }
+  // mounted() {git 
+  //   this.fetchUserDetails();
+  // }
 
 
 };
