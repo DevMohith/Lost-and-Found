@@ -1,95 +1,9 @@
 <template>
-    <div id="app" class="app">
-      <Navbar/>
+
       <h1 class="title">Report Lost</h1>
   
-      <main class="main">
-        
-        <form class="form">
-  
-            <div class="left-section">
-            <!-- Matriculation ID -->
-            <div class="form-group">
-              <label for="matriculation-id">Matriculation ID</label>
-              <input
-                class="box"
-                type="text"
-                id="matriculation-id"
-                v-model="user.matriculationId"
-                readonly
-                placeholder="Getting your Matriculation ID"
-              />
-            </div>
-  
-            <div class="form-group">
-              <label for="item-name">Item Name</label>
-              <input class="box" type="text" id="item-name" placeholder="Nothing Phone 2" />
-            </div>
-  
-            <div class="form-group">
-              <label for="item-category">Item Category</label>
-              <select id="item-category">
-                <option>Electronics</option>
-                <option>Bags</option>
-                <option>Clothes</option>
-                <option>Money</option>
-                <option>Cards</option>
-                <option>Others</option>
-              </select>
-            </div>
-  
-            <div class="form-group">
-              <label for="item-color">Item Color</label>
-              <select id="item-color">
-                <option class="box">Blue</option>
-              </select>
-            </div>
-  
-            <div class="form-group">
-              <label for="lost-location">Lost Location</label>
-              <select id="lost-location">
-                <option>Near Blue Tower</option>
-                <option>Near MPS-3</option>
-                <option>Near BS-13</option>
-                <option>Near SRH Campus Tram station</option>
-                <option>Near SRH Gym</option>
-                <option>Others</option>
-                
-              </select>
-            </div>
-  
-            <div class="form-group">
-              <label for="item-brand">Item Brand</label>
-              <input class="box" type="text" id="item-brand" placeholder="Nothing" />
-            </div>
-          </div>
-  
-           
-          <div class="right-section">
-            <div class="form-group">
-              <label for="item-description">Item Description</label>
-              <textarea id="item-description" placeholder="Developers - Mohith Tummala, Neubin Sebastia, Rohith Sardeshmukh, Sriram kumar Natrajan"></textarea>
-            </div>
-  
-            <div class="form-group">
-              <label for="contact-information">Contact Information</label>
-              <input type="email" id="contact-information" placeholder="lostandfound@anymail.com " />
-            </div>
-  
-            <div class="form-group">
-              <label for="item-image">Item Image</label>
-              <div class="file-input-wrapper">
-                <input type="file" id="item-image" />
-              </div>
-            </div>
-          </div>
-  
-          
-        </form>
-        <button type="submit" class="submit-button">Submit Lost Item</button>
-      </main>
-    </div>
-    <Footer/>
+      
+   
   </template>
   
   <script>
@@ -102,34 +16,6 @@
       Navbar,
       Footer,
     },
-    //Matriculation id script
-    data() {
-      return {
-        user: {
-          name: "Messi",
-          email: "messi@student.srhuniversity.de",
-          matriculationId: "" 
-        },
-      };
-    },
-    methods: {
-      fetchUserDetails() {
-        setTimeout(() => {
-          const fetchedUser = {
-            name: "Messi",
-            email: "messi@student.university.de",
-            matriculationId: "202419689"
-          };
-          this.user = { ...this.user, ...fetchedUser };
-        }, 1000);
-      },
-    },
-    mounted() {git 
-      this.fetchUserDetails();
-    }
-  
-  
-  };
   </script>
   
   <style scoped>
