@@ -2,10 +2,12 @@
   <div class="lost-items-page">
     <Navbar/>
     <div class="sectionHeading"><h1>Lost Items</h1></div>
-    <!-- Filter and Search Section -->
-    <FilterandSearch />
+    <FilterandSearch 
+      :lostItems="lostItems"
+      @filtered-items="updateFilteredItems"
+    />
     <div class="product-grid">
-      <LostItem v-for="lostItem in lostItems" :key="lostItem.id" :lostitem="lostItem"/>
+      <LostItem v-for="lostItem in filteredItems" :key="lostItem.id" :lostitem="lostItem"/>
     </div>
     <Footer/>
   </div>
@@ -34,6 +36,7 @@ export default {
           location: "Library",
           description: "Leather wallet with cards inside.",
           image: "https://placehold.co/400",
+          category: "accessories",
         },
         {
           id: 2,
@@ -41,6 +44,7 @@ export default {
           location: "Cafeteria",
           description: "Black iPhone with a cracked screen.",
           image: "https://placehold.co/400",
+          category: "electronics",
         },
         {
           id: 3,
@@ -48,6 +52,7 @@ export default {
           location: "Bus Stop",
           description: "Backpack containing books and a laptop.",
           image: "https://placehold.co/400",
+          category: "accessories",
         },
         {
           id: 4,
@@ -55,6 +60,7 @@ export default {
           location: "Bus Stop",
           description: "Backpack containing books and a laptop.",
           image: "https://placehold.co/400",
+          category: "accessories",
         },
         {
           id: 5,
@@ -62,6 +68,7 @@ export default {
           location: "Bus Stop",
           description: "Backpack containing books and a laptop.",
           image: "https://placehold.co/400",
+          category: "accessories",
         },
         {
           id: 6,
@@ -69,12 +76,20 @@ export default {
           location: "Bus Stop",
           description: "Backpack containing books and a laptop.",
           image: "https://placehold.co/400",
+          category: "accessories",
         }
-        // Add more items as needed
       ],
+      filteredItems: [],
     };
   },
-  
+  methods: {
+    updateFilteredItems(filtered) {
+      this.filteredItems = filtered;
+    },
+  },
+  mounted() {
+    this.filteredItems = this.lostItems;
+  },
 };
 </script>
 

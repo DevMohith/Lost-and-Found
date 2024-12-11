@@ -1,9 +1,9 @@
 <template>
     <div class="filter-search-section">
-      <!-- Filter Dropdown -->
+
       <div class="filter-container">
         <img class="filter-icon" src="../assets/icons/filterP.png">
-        <select class="filter-dropdown">
+        <select class="filter-dropdown" v-model="selectedCategory" @change="applyFilters">
           <option value="" disabled selected>Filter by Category</option>
           <option value="all">All</option>
           <option value="electronics">Electronics</option>
@@ -12,16 +12,49 @@
           <option value="others">Others</option>
         </select>
       </div>
-      <!-- Search Bar -->
+
       <div class="search-container">
-        <input type="text" class="search-input" placeholder="Item or location" />
+        <input 
+          type="text" 
+          class="search-input"
+          placeholder="Search here"
+          @input="applyFilters"
+          v-model="searchQuery" 
+        />
         <img class="search-icon" src="../assets/icons/searchIcon.png">
       </div>
     </div>
 </template>
+
 <script>
 export default {
     name:"FilterandSearch",
+    props: {
+      lostItems: {
+        type: Array,
+        required: true,
+      },
+    },
+    data() {
+      return {
+        searchQuery: "",
+        selectedCategory: "",
+      }
+    },
+    methods: {
+    applyFilters() {
+      const filtered = this.lostItems.filter((item) => {
+        const matchesSearch = this.searchQuery === "" || 
+          item.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+          item.location.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchesCategory = this.selectedCategory === "all" || this.selectedCategory === "" || 
+          item.category === this.selectedCategory;
+        
+        return matchesSearch && matchesCategory;
+      });
+      this.$emit("filtered-items", filtered);
+    },
+  },
 }
 </script>
 
