@@ -108,18 +108,16 @@ export default {
   methods: {
     fetchUserDetails() {
       setTimeout(() => {
-        // Simulated API response
         const fetchedUser = {
           name: "Messi",
           email: "messi@student.university.de",
-          matriculationId: "202419689" // Example matriculation ID
+          matriculationId: "202419689"
         };
         this.user = { ...this.user, ...fetchedUser };
-      }, 1000); // Simulate a 1-second network delay
+      }, 1000);
     },
   },
-  mounted() {
-    // Fetch user details when the component mounts
+  mounted() {git 
     this.fetchUserDetails();
   }
 
@@ -164,14 +162,14 @@ export default {
 }
 
 #matriculation-id {
-  width: 200px; /* Adjust to make it smaller */
-  padding: 8px; /* Slightly reduce padding */
-  font-size: 12px; /* Smaller text size */
-  border: 1px solid #ccc; /* Subtle border */
-  border-radius: 6px; /* Rounded edges */
-  background-color: #f0f0f0; /* Light gray background */
-  color: #333; /* Darker text for contrast */
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
+  width: 200px;
+  padding: 8px;
+  font-size: 12px;
+  border: 1px solid #ccc; 
+  border-radius: 6px; 
+  background-color: #f0f0f0;
+  color: #333;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .router-links {
