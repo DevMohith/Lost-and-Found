@@ -5,6 +5,7 @@ import RegisterPage from "../pages/RegisterPage.vue";
 import LostItems from "../pages/LostItems.vue";
 import LostItemDetails from "../pages/LostItemDetails.vue";
 import ReportLost from "@/pages/ReportLost.vue";
+import MyPosts from "@/pages/MyPosts.vue";
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     path: "/reportLost",
     name: "ReportLost",
     component: ReportLost,
+  },
+  {
+    path: "/myposts",
+    name: "MyPosts",
+    component: MyPosts,
   },
 ];
 
