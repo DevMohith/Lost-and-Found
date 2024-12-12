@@ -1,13 +1,22 @@
 <template>
   <div class="lost-items-page">
-    <Navbar/>
-    <div class="sectionHeading"><h1>Lost Items</h1></div>
-    <!-- Filter and Search Section -->
-    <FilterandSearch />
-    <div class="product-grid">
-      <LostItem v-for="lostItem in lostItems" :key="lostItem.id" :lostitem="lostItem"/>
+    <Navbar />
+    <div class="sectionHeading">
+      <h1>Lost Items</h1>
     </div>
-    <Footer/>
+    <FilterandSearch 
+      :lostItems="lostItems"
+      @filtered-items="updateFilteredItems"
+    />
+    <div class="product-grid">
+      <LostItem 
+        v-for="lostItem in filteredItems" 
+        :key="lostItem.id" 
+        :lostitem="lostItem" 
+        @view-details="viewDetails" 
+      />
+    </div>
+    <Footer />
   </div>
 </template>
 
@@ -19,64 +28,45 @@ import Footer from '@/components/Footer.vue';
 
 export default {
   name: "LostItems",
-  components:{
+  components: {
     FilterandSearch,
-    Navbar,   
+    Navbar,
     LostItem,
-    Footer, 
+    Footer,
   },
   data() {
     return {
-      lostItems: [
-        {
-          id: 1,
-          name: "Black Wallet",
-          location: "Library",
-          description: "Leather wallet with cards inside.",
-          image: "https://placehold.co/400",
-        },
-        {
-          id: 2,
-          name: "iPhone 12",
-          location: "Cafeteria",
-          description: "Black iPhone with a cracked screen.",
-          image: "https://placehold.co/400",
-        },
-        {
-          id: 3,
-          name: "Blue Backpack",
-          location: "Bus Stop",
-          description: "Backpack containing books and a laptop.",
-          image: "https://placehold.co/400",
-        },
-        {
-          id: 4,
-          name: "Blue Backpack",
-          location: "Bus Stop",
-          description: "Backpack containing books and a laptop.",
-          image: "https://placehold.co/400",
-        },
-        {
-          id: 5,
-          name: "Blue Backpack",
-          location: "Bus Stop",
-          description: "Backpack containing books and a laptop.",
-          image: "https://placehold.co/400",
-        },
-        {
-          id: 6,
-          name: "Blue Backpack",
-          location: "Bus Stop",
-          description: "Backpack containing books and a laptop.",
-          image: "https://placehold.co/400",
-        }
-        // Add more items as needed
-      ],
+      lostItems: [],
+      filteredItems: [],
     };
   },
-  
+  methods: {
+    async fetchLostItems() {
+      try {
+        const response = await fetch("http://localhost:5001/lostItems");
+        if (!response.ok) {
+          throw new Error("Failed to fetch lost items.");
+        }
+        const data = await response.json();
+        this.lostItems = data;
+        this.filteredItems = this.lostItems;
+      } catch (error) {
+        console.error("Error fetching lost items:", error);
+      }
+    },
+    updateFilteredItems(filtered) {
+      this.filteredItems = filtered;
+    },
+    viewDetails(item) {
+      this.$router.push({ name: "LostItemDetails", params: { id: item.id } });
+    },
+  },
+  mounted() {
+    this.fetchLostItems();
+  },
 };
 </script>
+
 
 <style>
 /* Filter and Search Section */

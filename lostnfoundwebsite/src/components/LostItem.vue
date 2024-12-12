@@ -1,11 +1,16 @@
 <template>
-    <div class="product-card">
-        <img :src="lostitem.image" :alt="lostitem.name" class="product-image" />
-        <h3 class="product-name">{{ lostitem.name }}</h3>
-        <p class="product-description">{{ lostitem.location }}</p>
-        <p class="product-description">{{ lostitem.description }}</p>
-        <div class="buttonDiv"><button class="view-more-btn">View More</button></div>        
-      </div>
+  <div class="product-card">
+    <img :src="lostitem.image" :alt="lostitem.name" class="product-image" />
+    <h3 class="product-name">{{ lostitem.name }}</h3>
+    <p class="product-description">{{ lostitem.location }}</p>
+    <p class="product-description">{{ lostitem.brand }}</p>
+    <p class="product-description">{{ lostitem.color }}</p>
+    <div class="buttonDiv">
+      <router-link :to="`/lostitems/${lostitem.id}`">
+        <button class="view-more-btn">View More</button>
+      </router-link>      
+    </div>
+  </div>
 </template>
 
 <script>
@@ -21,11 +26,10 @@ export default {
 </script>
 
 <style scoped>
-
 /* Individual product card */
 .product-card {
   width: 20rem;
-  border: 1px solid #6889FF;
+  border: 1px solid #6889ff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 14px;
@@ -59,11 +63,11 @@ export default {
 }
 
 /* View more button */
-.buttonDiv{
-    text-align: center;
+.buttonDiv {
+  text-align: center;
 }
 .view-more-btn {
-  background-color: #0469FF;
+  background-color: #0469ff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -75,5 +79,4 @@ export default {
 .view-more-btn:hover {
   background-color: #0056b3;
 }
-
 </style>
