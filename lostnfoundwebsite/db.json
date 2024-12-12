@@ -23,6 +23,12 @@
       "matriculationNumber": "685479",
       "email": "dummy1@gmail.com",
       "password": "$2a$10$PKIbV23sEHqUZVloO0yPFuz1db0f6IeL0ZwYgzlZmQRqKG1cSteBS"
+    },
+    {
+      "id": "6082",
+      "matriculationNumber": "202425",
+      "email": "srh1@gmail.com",
+      "password": "$2a$10$IRw5KlWnxENgCK1gPDSDiOUGx.ys3SqdHuPnr6jrxkIXHGmDoVssa"
     }
   ]
 }
