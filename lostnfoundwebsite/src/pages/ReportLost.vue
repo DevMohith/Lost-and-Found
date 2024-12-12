@@ -17,7 +17,7 @@
               id="matriculation-id"
               v-model="user.matriculationId"
               readonly
-              placeholder="Getting your Matriculation ID"
+              placeholder="Fetching your Matriculation ID"
             />
           </div>
 
@@ -89,47 +89,57 @@
       <button type="submit" class="submit-button">Submit Lost Item</button>
     </main>
   </div>
-  <Footer/>
+<Footer/>
 </template>
 
 <script>
+import axios from "axios"; // Ensure Axios is installed and imported
 import Navbar from "../components/Navbar.vue";
 import Footer from '@/components/Footer.vue';
 
 export default {
   name: "ReportLostPage",
-  components:{
+  components: {
     Navbar,
     Footer,
   },
-  //Matriculation id script
   data() {
     return {
       user: {
-        name: "Messi",
-        email: "messi@student.srhuniversity.de",
-        matriculationId: "" 
+        name: "",
+        email: "",
+        matriculationId: "",
       },
     };
   },
   methods: {
-    fetchUserDetails() {
-      setTimeout(() => {
-        const fetchedUser = {
-          name: "Messi",
-          email: "messi@student.university.de",
-          matriculationId: "202419689"
-        };
-        this.user = { ...this.user, ...fetchedUser };
-      }, 1000);
+    async fetchUserDetails() {
+      try {
+        const email = localStorage.getItem("loggedInUserEmail");
+        if (!email) {
+          alert("User is not logged in. Please sign in.");
+          return;
+        }
+        
+        const response = await axios.get(`http://localhost:3000/users?email=${email}`);
+        
+        if (response.data.length > 0) {
+          this.user.matriculationId = response.data[0].matriculationNumber;
+        } else {
+           alert("user not found");
+        }
+        
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+        alert('Could not fetch user details.');
+      }
     },
   },
-  mounted() {git 
-    this.fetchUserDetails();
-  }
-
-
+  created() {
+    this.fetchUserDetails(); 
+  },
 };
+ 
 </script>
 
 <style scoped>
