@@ -4,16 +4,15 @@
     <div class="sectionHeading">
       <h1>Lost Items</h1>
     </div>
-    <FilterandSearch 
+    <FilterandSearch
       :lostItems="lostItems"
       @filtered-items="updateFilteredItems"
     />
     <div class="product-grid">
-      <LostItem 
-        v-for="lostItem in filteredItems" 
-        :key="lostItem.id" 
-        :lostitem="lostItem" 
-        @view-details="viewDetails" 
+      <LostItem
+        v-for="item in filteredItems"
+        :key="item.id"
+        :lostitem="item"
       />
     </div>
     <Footer />
@@ -21,10 +20,11 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import FilterandSearch from "../components/FilterandSearch.vue";
 import Navbar from "../components/Navbar.vue";
 import LostItem from "../components/LostItem.vue";
-import Footer from '@/components/Footer.vue';
+import Footer from "../components/Footer.vue";
 
 export default {
   name: "LostItems",
@@ -36,40 +36,28 @@ export default {
   },
   data() {
     return {
-      lostItems: [],
       filteredItems: [],
     };
   },
+  computed: {
+    ...mapState(["lostItems"]),
+  },
   methods: {
-    async fetchLostItems() {
-      try {
-        const response = await fetch("http://localhost:5001/lostItems");
-        if (!response.ok) {
-          throw new Error("Failed to fetch lost items.");
-        }
-        const data = await response.json();
-        this.lostItems = data;
-        this.filteredItems = this.lostItems;
-      } catch (error) {
-        console.error("Error fetching lost items:", error);
-      }
-    },
+    ...mapActions(["fetchLostItems"]),
     updateFilteredItems(filtered) {
       this.filteredItems = filtered;
     },
-    viewDetails(item) {
-      this.$router.push({ name: "LostItemDetails", params: { id: item.id } });
-    },
   },
-  mounted() {
-    this.fetchLostItems();
+  async mounted() {
+    await this.fetchLostItems();
+    this.filteredItems = this.lostItems;
   },
 };
 </script>
 
 
+
 <style>
-/* Filter and Search Section */
 .sectionHeading{
     text-align: center;
     padding: 1rem;
@@ -84,7 +72,6 @@ export default {
   margin-bottom: 3rem;
 }
 
-/* Individual product card */
 .product-card {
   width: 20rem;
   border: 1px solid #6889FF;
@@ -96,7 +83,6 @@ export default {
   height: 100%;
 }
 
-/* Product image */
 .product-image {
   width: 100%;
   max-width: 20rem;
@@ -105,7 +91,6 @@ export default {
   margin-bottom: 15px;
 }
 
-/* Product name */
 .product-name {
   font-size: 1.2rem;
   font-weight: bold;
@@ -113,14 +98,12 @@ export default {
   color: #333;
 }
 
-/* Product description */
 .product-description {
   font-size: 0.9rem;
   color: #555;
   margin-bottom: 10px;
 }
 
-/* View more button */
 .buttonDiv{
     text-align: center;
 }
