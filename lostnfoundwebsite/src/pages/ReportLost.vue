@@ -169,7 +169,7 @@ export default {
         }
 
       
-        const response = await fetch(`http://localhost:3000/users?email=${email}`);
+        const response = await fetch(`http://localhost:5001/users?email=${email}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -207,7 +207,7 @@ export default {
     this.lostItem.id = Date.now().toString(); // Generate a unique ID
 
     try {
-      const response = await fetch("http://localhost:3000/lostItems", {
+      const response = await fetch("http://localhost:5001/lostItems", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.lostItem),
