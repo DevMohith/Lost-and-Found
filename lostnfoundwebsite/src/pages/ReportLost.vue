@@ -33,7 +33,7 @@
 
           <div class="form-group">
             <label for="item-category">Item Category</label>
-            <select id="item-category">
+            <select v-model="lostItem.category" id="item-category">
               <option>Electronics</option>
               <option>Bags</option>
               <option>Clothing</option>
@@ -52,6 +52,11 @@
               <option class="box">Pink</option>
               <option class="box">Yellow</option>
               <option class="box">Red</option>
+              <option class="box">Orange</option>
+              <option class="box">Peach</option>
+              <option class="box">Green</option>
+              <option class="box">Gold</option>
+              <option class="box">others</option>
             </select>
           </div>
 
@@ -61,9 +66,13 @@
               <option>Blue Tower</option>
               <option>Cafeteria</option>
               <option>Library</option>
-              <option>bonhoefferstraße 13</option>
+              <option>Bonhoefferstraße 13</option>
               <option>SRH Campus Tram station</option>
+              <option>Ochsenkof Tram Station</option>
+              <Option>Bonhoefferstraße 9</Option>
+              <Option>SRH Parkplatz</Option>
               <option>SRH Gym</option>
+              <option>MPS 3</option>
               <option>Others</option>
               
             </select>
@@ -92,8 +101,11 @@
           </div>
 
           <div class="form-group">
-            <label for="contact-information">Contact Information</label>
-            <input type="email" id="contact-information" placeholder="lostandfound@anymail.com " />
+            <label for="contact-information">Contact </label>
+            <input type="email" 
+             id="contact-information" 
+             placeholder="lostandfoInformationund@anymail.com " 
+             v-model="lostItem.contact"/>
           </div>
 
           <div class="form-group">
@@ -109,15 +121,23 @@
               <img :src="lostItem.image" alt="Preview of Lost Item" />
           </div>
         </div>
+
+        <div class="form-group">
+            <label for="lost-date">Lost Date</label>
+            <input
+              type="date"
+              id="lost-date"
+              class="box"
+              v-model="lostItem.date"
+              required
+            />
+          </div>
          
         <div class="button-wrapper">
         <button type="submit" class="submit-button">Submit Lost Item</button>
       </div>
       </div>
-      </form>
-
-     
-      
+    </form>
     </main>
   </div>
 <Footer/>
@@ -143,11 +163,15 @@ export default {
       lostItem: {
         id: null,
         name: "",
+        category: "",
         color: "",
         location: "",
         brand: "",
         description: "",
+        contact: "",
         image: null,
+        date: "",
+        
       },
     };
   },
@@ -210,9 +234,14 @@ export default {
   async submitLostItem() {
     if (
       !this.lostItem.name ||
+      !this.lostItem.category ||
       !this.lostItem.color ||
       !this.lostItem.location ||
-      !this.lostItem.description
+      !this.lostItem.contact ||
+      !this.lostItem.description ||
+      !this.lostItem.image ||
+      !this.lostItem.date
+
     ) {
       alert("Please fill in all required fields.");
       return;
@@ -224,7 +253,10 @@ export default {
       const response = await fetch("http://localhost:5001/lostItems", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.lostItem),
+        body: JSON.stringify({
+          ...this.lostItem,
+          matriculationId: this.user.matriculationId,
+          }),
       });
 
       if (response.ok) {
@@ -331,10 +363,13 @@ export default {
 }
 
 .main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   max-width: 995px;
-  height: 700px;
+  height: 1000px;
   margin: 20px auto;
-  padding: 32px 40px 32px 40px;
+  padding: 20px;
   background-color: #fff;
   border: 1px;
   border-radius: 15px;
@@ -362,6 +397,16 @@ export default {
 .form-group {
   display: flex;
   flex-direction: column;
+  margin: 15px;
+}
+
+#lost-date {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #d0daff;
+  border-radius: 10px;
+  width: 400px;
+  background-color: #f6f6f6;
 }
 
 .left-section, .right-section{
