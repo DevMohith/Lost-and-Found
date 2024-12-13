@@ -1,76 +1,76 @@
 <template>
-    <Navbar />
-    <div class="myposts-page">
-
-        <h1>My Posts</h1>
-        <section>
-            <h2>Lost Items</h2>
-            <div class="items-grid">
-                <div v-for="item in lostItems" :key="item.id" class="item-card">
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.description }}</p>
-                    <p>Location: {{ item.location }}</p>
-                    <p>Date: {{ item.date }}</p>
-                </div>
-                <p v-if="lostItems.length === 0">No lost items found.</p>
-            </div>
-        </section>
-        <section>
-            <h2>Found Items</h2>
-            <div class="items-grid">
-                <div v-for="item in foundItems" :key="item.id" class="item-card">
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.description }}</p>
-                    <p>Location: {{ item.location }}</p>
-                    <p>Date: {{ item.date }}</p>
-                </div>
-                <p v-if="foundItems.length === 0">No found items posted.</p>
-            </div>
-        </section>
-
-    </div>
-    <Footer />
+  <Navbar />
+  <div class="myposts-page">
+    <h1>My Posts</h1>
+    <section>
+      <h2>Lost Items</h2>
+      <div v-if="myPosts.length" class="product-grid">
+        <LostItem v-for="post in myPosts" :key="post.id" :lostitem="post" mode="manage" />
+      </div>
+      <div v-else class="no-posts product-grid">
+        <p>You have not posted any lost items yet.</p>
+      </div>
+    </section>
+    <!-- <section>
+      <h2>Found Items</h2>
+      <div class="items-grid">
+        <div v-for="item in foundItems" :key="item.id" class="item-card">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+          <p>Location: {{ item.location }}</p>
+          <p>Date: {{ item.date }}</p>
+        </div>
+        <p v-if="foundItems.length === 0">No found items posted.</p>
+      </div>
+    </section> -->
+  </div>
+  <Footer />
 </template>
 
 <script>
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
-import { mapState } from "vuex";
+import LostItem from "../components/LostItem.vue";
+import { mapState, mapActions } from "vuex";
 
 export default {
-    name: "MyPosts",
-    components: {
-        Navbar,
-        Footer,
-    },
-    computed: {
-        ...mapState(["posts", "user"]),
-        lostItems() {
-            return (this.posts || []).filter(post => post.type === "lost" && post.userId === this.user.id);
-        },
-        foundItems() {
-            return (this.posts || []).filter(post => post.type === "found" && post.userId === this.user.id);
-        },
-    },
+  name: "MyPosts",
+  components: {
+    Navbar,
+    Footer,
+    LostItem,
+  },
+  computed: {
+    ...mapState(["myPosts"]),
+  },
+   methods: {
+    ...mapActions(["fetchMyPosts"]),
+  },
+  async created() {
+    await this.fetchMyPosts();
+  },
 };
 </script>
 
 <style scoped>
 .myposts-page {
-    padding: 20px;
+  padding: 20px;
 }
 
-.items-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 10px;
+.product-grid {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 20px;
+  justify-content: space-evenly;
+  margin-left: 6rem;
+  margin-right: 6rem;
+  margin-bottom: 3rem;
 }
 
 .item-card {
-    border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 10px;
-    background: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+  background: #fff;
 }
 </style>

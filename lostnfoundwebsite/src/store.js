@@ -1,11 +1,12 @@
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
 import * as util from "./util";
 
 export default createStore({
   state: {
     user: null,
-    lostItems: [], 
-    selectedLostItem: null, 
+    lostItems: [],
+    selectedLostItem: null,
+    myPosts: [],
   },
   getters: {
     getLostItemById: (state) => (id) => {
@@ -24,6 +25,9 @@ export default createStore({
     setSelectedLostItem(state, item) {
       state.selectedLostItem = item;
     },
+    setMyPosts(state, items) {
+      state.myPosts = items;
+    },
   },
   actions: {
     async fetchLostItems({ commit }) {
@@ -33,6 +37,16 @@ export default createStore({
     async fetchLostItemById({ commit }, id) {
       const item = await util.fetchLostItem(id);
       commit("setSelectedLostItem", item);
+    },
+    async fetchMyPosts({ commit }) {
+      const matriculationNumber = localStorage.getItem(
+        "loggedInUserMatriculationId"
+      );
+      const items = await util.fetchLostItems();
+      const myPosts = items.filter(
+        (item) => item.matriculationId === matriculationNumber
+      );
+      commit("setMyPosts", myPosts);
     },
   },
   modules: {},

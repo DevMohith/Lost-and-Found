@@ -8,7 +8,7 @@
         <div class="details-content">
           <p class="detailText">Lost Date</p>
           <strong
-            ><p>{{ lostItem.lostDate }}</p></strong
+            ><p>{{ lostItem.date }}</p></strong
           >
           <p class="detailText">Lost Location</p>
           <strong
@@ -34,7 +34,7 @@
             ><p>{{ lostItem.description }}</p></strong
           >
           <p class="detailText">Contact Information</p>
-          <strong><p>{{ lostItem.contactInfo }}</p></strong>
+          <strong><p>{{ lostItem.contact }}</p></strong>
         </div>
       </div>
     </div>

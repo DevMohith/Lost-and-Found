@@ -6,10 +6,19 @@
     <p class="product-description">{{ lostitem.location }}</p>
     <p class="product-description">{{ lostitem.brand }}</p>
     <p class="product-description">{{ lostitem.color }}</p>
-    <div class="buttonDiv">
+    <!-- <div class="buttonDiv">
       <router-link :to="`/lostitems/${lostitem.id}`">
         <button class="view-more-btn">View More</button>
       </router-link>      
+    </div> -->
+    <div class="buttonDiv">
+     <router-link v-if="mode === 'view'" :to="`/lostitems/${lostitem.id}`">
+        <button class="view-more-btn">View More</button>
+      </router-link>
+      <div v-else-if="mode === 'manage'">
+        <button class="edit-btn">Edit</button>
+        <button class="delete-btn">Delete</button>
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +31,12 @@ export default {
       type: Object,
       required: true,
     },
+     mode: {
+      type: String,
+      default: "view",
+    },
   },
+ 
 };
 </script>
 
@@ -74,5 +88,24 @@ export default {
 
 .view-more-btn:hover {
   background-color: #0056b3;
+}
+.edit-btn,
+.delete-btn {
+  background-color: #0469ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+  background-color: #ffa500;
+}
+
+.delete-btn:hover {
+  background-color: #ff4d4d;
 }
 </style>

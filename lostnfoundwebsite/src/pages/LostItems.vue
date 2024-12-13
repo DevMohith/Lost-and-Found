@@ -13,6 +13,7 @@
         v-for="item in filteredItems"
         :key="item.id"
         :lostitem="item"
+        mode="view"
       />
     </div>
     <Footer />
