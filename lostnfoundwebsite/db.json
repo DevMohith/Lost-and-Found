@@ -48,30 +48,39 @@
       "id": "1",
       "name": "Black Wallet",
       "location": "Library",
+      "category": "Accessories",
       "description": "Leather wallet with cards inside.",
       "image": "https://placehold.co/400",
       "lostDate": "2024-12-01",
       "brand": "Gucci",
-      "color": "Black"
+      "color": "Black",
+      "contactInfo": "any@mail.com"
     },
     {
       "id": "2",
       "name": "iPhone 12",
       "location": "Cafeteria",
+      "category": "Electronics",
       "description": "Black iPhone with a cracked screen.",
       "image": "https://placehold.co/400",
       "lostDate": "2024-11-20",
       "brand": "Apple",
-      "color": "Black"
+      "color": "Black",
+      "contactInfo": "any@mail.com"
     },
     {
       "id": "3",
       "name": "iPhone 12",
       "location": "Cafeteria",
+      "category": "Electronics",
       "description": "Black iPhone with a cracked screen.",
       "image": "https://placehold.co/400",
       "lostDate": "2024-11-20",
       "brand": "Apple",
+      "color": "Black",
+      "contactInfo": "any@mail.com"
+    }
+    
       "color": "Black"
     },
     {

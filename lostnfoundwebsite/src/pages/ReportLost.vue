@@ -171,7 +171,7 @@ export default {
         }
 
       
-        const response = await fetch(`http://localhost:3000/users?email=${email}`);
+        const response = await fetch(`http://localhost:5001/users?email=${email}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

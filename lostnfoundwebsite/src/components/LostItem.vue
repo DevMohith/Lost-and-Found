@@ -2,6 +2,7 @@
   <div class="product-card">
     <img :src="lostitem.image" :alt="lostitem.name" class="product-image" />
     <h3 class="product-name">{{ lostitem.name }}</h3>
+    <p class="product-description">{{ lostitem.category }}</p>
     <p class="product-description">{{ lostitem.location }}</p>
     <p class="product-description">{{ lostitem.brand }}</p>
     <p class="product-description">{{ lostitem.color }}</p>
@@ -26,7 +27,6 @@ export default {
 </script>
 
 <style scoped>
-/* Individual product card */
 .product-card {
   width: 20rem;
   border: 1px solid #6889ff;
@@ -38,7 +38,6 @@ export default {
   height: 100%;
 }
 
-/* Product image */
 .product-image {
   width: 100%;
   max-width: 20rem;
@@ -47,7 +46,6 @@ export default {
   margin-bottom: 15px;
 }
 
-/* Product name */
 .product-name {
   font-size: 1.2rem;
   font-weight: bold;
@@ -55,14 +53,12 @@ export default {
   color: #333;
 }
 
-/* Product description */
 .product-description {
   font-size: 0.9rem;
   color: #555;
   margin-bottom: 10px;
 }
 
-/* View more button */
 .buttonDiv {
   text-align: center;
 }
