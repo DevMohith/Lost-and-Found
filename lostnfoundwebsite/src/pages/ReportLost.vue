@@ -47,11 +47,11 @@
             <label for="item-color">Item Color</label>
             <select v-model="lostItem.color" id="item-color">
               <option class="box">Blue</option>
-              <option class="box">Blue</option>
-              <option class="box">Blue</option>
-              <option class="box">Blue</option>
-              <option class="box">Blue</option>
-              <option class="box">Blue</option>
+              <option class="box">Black</option>
+              <option class="box">White</option>
+              <option class="box">Pink</option>
+              <option class="box">Yellow</option>
+              <option class="box">Red</option>
             </select>
           </div>
 
@@ -101,16 +101,19 @@
             <div class="file-input-wrapper">
               <input 
               type="file" 
-              id="item-image" /> <!--Unable to bind the image into V-model--> <!---we dont have lost date-->
+              id="item-image" 
+              accept="image/*" 
+              @change="handleFileChange"/> <!--Unable to bind the image into V-model--> <!---we dont have lost date-->
             </div>
+            <div v-if="lostItem.image" class="image-preview">
+              <img :src="lostItem.image" alt="Preview of Lost Item" />
           </div>
         </div>
          
         <div class="button-wrapper">
         <button type="submit" class="submit-button">Submit Lost Item</button>
       </div>
-
-        
+      </div>
       </form>
 
      
@@ -144,12 +147,11 @@ export default {
         location: "",
         brand: "",
         description: "",
+        image: null,
       },
     };
   },
   methods: {
-      
-
     async fetchUserDetails() {
       try {
         const storedMatriculationId = localStorage.getItem("loggedInUserMatriculationId");
@@ -192,6 +194,18 @@ export default {
       }
     },
   
+    handleFileChange(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.lostItem.image = e.target.result; // Save Base64 image data
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+
+    
 
   async submitLostItem() {
     if (
@@ -207,7 +221,7 @@ export default {
     this.lostItem.id = Date.now().toString(); // Generate a unique ID
 
     try {
-      const response = await fetch("http://localhost:3000/lostItems", {
+      const response = await fetch("http://localhost:5001/lostItems", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.lostItem),
@@ -215,7 +229,7 @@ export default {
 
       if (response.ok) {
         alert("Lost item reported successfully!");
-        this.$router.push("/LostItems"); // Navigate to the list page
+        this.$router.push("/LostItems");
       } else {
         throw new Error(`Error: ${response.statusText}`);
       }

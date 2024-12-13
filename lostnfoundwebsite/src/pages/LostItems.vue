@@ -98,8 +98,10 @@ export default {
 
 /* Product image */
 .product-image {
-  width: 100%;
+  width: 80%;
+  height: 80%;
   max-width: 20rem;
+  max-height: 20rem;
   height: auto;
   border-radius: 8px;
   margin-bottom: 15px;
