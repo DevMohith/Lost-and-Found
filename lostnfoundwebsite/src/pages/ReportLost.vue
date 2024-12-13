@@ -5,10 +5,10 @@
 
     <main class="main">
       
-      <form class="form">
+      <form @submit.prevent="submitLostItem" class="form">
 
           <div class="left-section">
-          <!-- Matriculation ID -->
+        
           <div class="form-group">
             <label for="matriculation-id">Matriculation ID</label>
             <input
@@ -23,7 +23,12 @@
 
           <div class="form-group">
             <label for="item-name">Item Name</label>
-            <input class="box" type="text" id="item-name" placeholder="Nothing Phone 2" />
+            <input 
+            class="box" 
+            type="text" 
+            id="item-name" 
+            v-model="lostItem.name"  
+            placeholder="Add your lost item" />
           </div>
 
           <div class="form-group">
@@ -31,7 +36,7 @@
             <select id="item-category">
               <option>Electronics</option>
               <option>Bags</option>
-              <option>Clothes</option>
+              <option>Clothing</option>
               <option>Money</option>
               <option>Cards</option>
               <option>Others</option>
@@ -40,19 +45,25 @@
 
           <div class="form-group">
             <label for="item-color">Item Color</label>
-            <select id="item-color">
+            <select v-model="lostItem.color" id="item-color">
+              <option class="box">Blue</option>
+              <option class="box">Blue</option>
+              <option class="box">Blue</option>
+              <option class="box">Blue</option>
+              <option class="box">Blue</option>
               <option class="box">Blue</option>
             </select>
           </div>
 
           <div class="form-group">
             <label for="lost-location">Lost Location</label>
-            <select id="lost-location">
-              <option>Near Blue Tower</option>
-              <option>Near MPS-3</option>
-              <option>Near BS-13</option>
-              <option>Near SRH Campus Tram station</option>
-              <option>Near SRH Gym</option>
+            <select v-model="lostItem.location" id="lost-location">
+              <option>Blue Tower</option>
+              <option>Cafeteria</option>
+              <option>Library</option>
+              <option>bonhoefferstraße 13</option>
+              <option>SRH Campus Tram station</option>
+              <option>SRH Gym</option>
               <option>Others</option>
               
             </select>
@@ -60,7 +71,12 @@
 
           <div class="form-group">
             <label for="item-brand">Item Brand</label>
-            <input class="box" type="text" id="item-brand" placeholder="Nothing" />
+            <input 
+            class="box" 
+            type="text" 
+            id="item-brand"
+            v-model="lostItem.brand" 
+            placeholder="Nothing" />
           </div>
         </div>
 
@@ -68,7 +84,11 @@
         <div class="right-section">
           <div class="form-group">
             <label for="item-description">Item Description</label>
-            <textarea id="item-description" placeholder="Developers - Mohith Tummala, Neubin Sebastia, Rohith Sardeshmukh, Sriram kumar Natrajan"></textarea>
+            <textarea 
+            id="item-description" 
+            v-model="lostItem.description"
+            placeholder="Describe the item in detail..."
+            ></textarea>
           </div>
 
           <div class="form-group">
@@ -79,14 +99,22 @@
           <div class="form-group">
             <label for="item-image">Item Image</label>
             <div class="file-input-wrapper">
-              <input type="file" id="item-image" />
+              <input 
+              type="file" 
+              id="item-image" /> <!--Unable to bind the image into V-model--> <!---we dont have lost date-->
             </div>
           </div>
         </div>
+         
+        <div class="button-wrapper">
+        <button type="submit" class="submit-button">Submit Lost Item</button>
+      </div>
 
         
       </form>
-      <button type="submit" class="submit-button">Submit Lost Item</button>
+
+     
+      
     </main>
   </div>
 <Footer/>
@@ -109,9 +137,19 @@ export default {
         email: "",
         matriculationId: "",
       },
+      lostItem: {
+        id: null,
+        name: "",
+        color: "",
+        location: "",
+        brand: "",
+        description: "",
+      },
     };
   },
   methods: {
+      
+
     async fetchUserDetails() {
       try {
         const storedMatriculationId = localStorage.getItem("loggedInUserMatriculationId");
@@ -130,10 +168,7 @@ export default {
           return;
         }
 
-       
-
-
-
+      
         const response = await fetch(`http://localhost:3000/users?email=${email}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -156,11 +191,43 @@ export default {
         alert("Could not fetch user details.");
       }
     },
-  },
+  
 
+  async submitLostItem() {
+    if (
+      !this.lostItem.name ||
+      !this.lostItem.color ||
+      !this.lostItem.location ||
+      !this.lostItem.description
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    this.lostItem.id = Date.now().toString(); // Generate a unique ID
+
+    try {
+      const response = await fetch("http://localhost:3000/lostItems", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.lostItem),
+      });
+
+      if (response.ok) {
+        alert("Lost item reported successfully!");
+        this.$router.push("/LostItems"); // Navigate to the list page
+      } else {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Failed to report lost item:", error);
+      alert("Could not submit the form. Please try again.");
+    }
+  },
+},
 
   created() {
-    this.fetchUserDetails(); 
+    this.fetchUserDetails();
   },
 };
  
@@ -272,9 +339,10 @@ export default {
 .form {
   display: flex;
   border-radius: 15px;
-  flex-wrap: nowrap;
   justify-content: space-between;
   gap: 40px;
+  position: relative;
+ 
 }
 
 .form-group {
@@ -329,20 +397,33 @@ textarea {
   color: #0469ff;
 }
 
+.button-wrapper {
+  position: absolute;
+  bottom: 0px;
+  left: 650px;
+}
 .submit-button {
   background-color: #0469ff;
   color: #fff;
-  padding: 15px 30px 15px 30px;
+  padding: 20px 20px;
+  font-size: 14px;
+  font-weight: bold;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  flex: 1 1 100%;
-  text-align: center;
-  margin-top: 30px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  
 }
 
 .submit-button:hover{
   background-color: #0c4c8f;
+  transform: scale(1.05);
 }
+
+.submit-button:active {
+  background-color: #033a6b;
+  transform: scale(1);
+}
+
 </style>
 
