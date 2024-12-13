@@ -48,85 +48,38 @@
       "id": "1",
       "name": "Black Wallet",
       "location": "Library",
+      "category": "Accessories",
       "description": "Leather wallet with cards inside.",
       "image": "https://placehold.co/400",
       "lostDate": "2024-12-01",
       "brand": "Gucci",
-      "color": "Black"
+      "color": "Black",
+      "contactInfo": "any@mail.com"
     },
     {
       "id": "2",
       "name": "iPhone 12",
       "location": "Cafeteria",
+      "category": "Electronics",
       "description": "Black iPhone with a cracked screen.",
       "image": "https://placehold.co/400",
       "lostDate": "2024-11-20",
       "brand": "Apple",
-      "color": "Black"
+      "color": "Black",
+      "contactInfo": "any@mail.com"
     },
     {
       "id": "3",
       "name": "iPhone 12",
       "location": "Cafeteria",
+      "category": "Electronics",
       "description": "Black iPhone with a cracked screen.",
       "image": "https://placehold.co/400",
       "lostDate": "2024-11-20",
       "brand": "Apple",
-      "color": "Black"
-    },
-    {
-      "id": "4",
-      "name": "Bag",
-      "location": "Cafeteria",
-      "description": "Black Bagggdsdsds sdsdsdsds dsdsd sdsds dsds dsdsds dsds ds ds dsdsdsdsdsdefe fef ef eeeeefef f efe fe fe fe f efe f ef efdtgr gr grg with a cracked screen.",
-      "image": "https://placehold.co/400",
-      "lostDate": "2024-11-20",
-      "brand": "Apple",
-      "color": "Black"
-    },
-    {
-      "id": "5",
-      "name": "iPhone 12",
-      "location": "Cafeteria",
-      "description": "Black iPhone with a cracked screen.",
-      "image": "https://placehold.co/400",
-      "lostDate": "2024-11-20",
-      "brand": "Apple",
-      "color": "Black"
-    },
-    {
-      "id": "6",
-      "name": "iPhone 12",
-      "location": "Blue Tower",
-      "description": "Black iPhone with a cracked screen.",
-      "image": "https://placehold.co/400",
-      "lostDate": "2024-11-20",
-      "brand": "Apple",
-      "color": "Black"
-    },
-    {
-      "id": "1734057533103",
-      "name": "trolly bag",
-      "color": "Blue",
-      "location": "Near Blue Tower",
-      "brand": "SAFARI",
-      "description": "I lost it last night near blue tower, its a cloth bag"
-    },
-    {
-      "id": "1734060251731",
-      "name": "Brain",
-      "color": "Blue",
-      "location": "bonhoefferstraße 13",
-      "brand": "Gods Brand",
-      "description": "Lost My Brain due to spending lots of my time on coding"
-    },
-    {
-      "id": "1734081841757",
-      "name": "dsdsdsd",
-      "color": "Blue",
-      "location": "Cafeteria",
-      "brand": "dsdsdsd",
-      "description": "sdsdsdsdds "
+      "color": "Black",
+      "contactInfo": "any@mail.com"
     }
+    
   ]
 }
