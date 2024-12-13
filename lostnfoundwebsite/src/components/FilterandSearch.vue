@@ -45,8 +45,9 @@ export default {
     applyFilters() {
       const filtered = this.lostItems.filter((item) => {
         const matchesSearch = this.searchQuery === "" || 
-          item.name.toLowerCase().includes(this.searchQuery.toLowerCase());
-          // || item.category.toLowerCase().includes(this.searchQuery.toLowerCase());
+          item.name?.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+          item.category?.toLowerCase().includes(this.searchQuery.toLowerCase());
+
         const matchesLocation = this.selectedLocation === "all" || this.selectedLocation === "" || 
           item.location === this.selectedLocation;
         
