@@ -3,13 +3,13 @@
 
       <div class="filter-container">
         <img class="filter-icon" src="../assets/icons/filterP.png">
-        <select class="filter-dropdown" v-model="selectedCategory" @change="applyFilters">
-          <option value="" disabled selected>Filter by Category</option>
+        <select class="filter-dropdown" v-model="selectedLocation" @change="applyFilters">
+          <option value="" disabled selected>Filter by Location</option>
           <option value="all">All</option>
-          <option value="electronics">Electronics</option>
-          <option value="clothing">Clothing</option>
-          <option value="accessories">Accessories</option>
-          <option value="others">Others</option>
+          <option value="Library">Library</option>
+          <option value="Cafeteria">Cafeteria</option>
+          <option value="Blue Tower">Blue Tower</option>
+          <option value="Bonhoefferstraße 13">Bonhoefferstraße 13</option>
         </select>
       </div>
 
@@ -38,19 +38,19 @@ export default {
     data() {
       return {
         searchQuery: "",
-        selectedCategory: "",
+        selectedLocation: "",
       }
     },
     methods: {
     applyFilters() {
       const filtered = this.lostItems.filter((item) => {
         const matchesSearch = this.searchQuery === "" || 
-          item.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-          item.location.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const matchesCategory = this.selectedCategory === "all" || this.selectedCategory === "" || 
-          item.category === this.selectedCategory;
+          item.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+          // || item.category.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchesLocation = this.selectedLocation === "all" || this.selectedLocation === "" || 
+          item.location === this.selectedLocation;
         
-        return matchesSearch && matchesCategory;
+        return matchesSearch && matchesLocation;
       });
       this.$emit("filtered-items", filtered);
     },
