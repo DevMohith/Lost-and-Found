@@ -93,7 +93,6 @@
 </template>
 
 <script>
-import axios from "axios"; // Ensure Axios is installed and imported
 import Navbar from "../components/Navbar.vue";
 import Footer from '@/components/Footer.vue';
 
@@ -115,26 +114,50 @@ export default {
   methods: {
     async fetchUserDetails() {
       try {
-        const email = localStorage.getItem("loggedInUserEmail");
-        if (!email) {
-          alert("User is not logged in. Please sign in.");
+        const storedMatriculationId = localStorage.getItem("loggedInUserMatriculationId");
+
+        if (storedMatriculationId) {
+          this.user.matriculationId = storedMatriculationId;
+          console.log("Matriculation ID from localStorage:", storedMatriculationId);
           return;
         }
-        
-        const response = await axios.get(`http://localhost:3000/users?email=${email}`);
-        
-        if (response.data.length > 0) {
-          this.user.matriculationId = response.data[0].matriculationNumber;
-        } else {
-           alert("user not found");
+
+        const email = localStorage.getItem("loggedInUserEmail");
+
+        if (!email) {
+          alert("User is not logged in. Please sign in.");
+          this.$router.push("/login");
+          return;
         }
-        
+
+       
+
+
+
+        const response = await fetch(`http://localhost:3000/users?email=${email}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+
+
+        const data = await response.json(); // Correctly parse response JSON
+
+        if (data.length > 0) {
+          this.user.matriculationId = data[0].matriculationNumber; // Assign matriculation number
+          localStorage.setItem("loggedInUserMatriculationId", this.user.matriculationId);
+          console.log("Matriculation ID from API:", this.user.matriculationId);
+        } else {
+          alert("User not found. Please log in again.");
+          this.$router.push("/login");
+        }
       } catch (error) {
-        console.error('Error fetching user details:', error);
-        alert('Could not fetch user details.');
+        console.error("Error fetching user details:", error);
+        alert("Could not fetch user details.");
       }
     },
   },
+
 
   created() {
     this.fetchUserDetails(); 

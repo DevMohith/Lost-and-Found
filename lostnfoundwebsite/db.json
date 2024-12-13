@@ -29,6 +29,80 @@
       "matriculationNumber": "202426",
       "email": "srh2@gmail.com",
       "password": "$2a$10$vI0x3FWGnDjXFDwrzzcaTuu9TXz7KR.PCJjLX35y0moDsd9cEYAeC"
+    },
+    {
+      "id": "a666",
+      "matriculationNumber": "999999",
+      "email": "neubin@gmail.com",
+      "password": "$2a$10$eT4mol9vGN2N0sH26R2fOurKtukA/jSru6XK.VRCp.dBs74imCThO"
+    },
+    {
+      "id": "6f06",
+      "matriculationNumber": "909999",
+      "email": "mohith@gmail.com",
+      "password": "$2a$10$LS4PuysBKt9YPyt9Aun9HeAPuGVmBGxUApnEPkGDkx9fy/7NB.jYS"
+    }
+  ],
+  "lostItems": [
+    {
+      "id": "1",
+      "name": "Black Wallet",
+      "location": "Library",
+      "description": "Leather wallet with cards inside.",
+      "image": "https://placehold.co/400",
+      "lostDate": "2024-12-01",
+      "brand": "Gucci",
+      "color": "Black"
+    },
+    {
+      "id": "2",
+      "name": "iPhone 12",
+      "location": "Cafeteria",
+      "description": "Black iPhone with a cracked screen.",
+      "image": "https://placehold.co/400",
+      "lostDate": "2024-11-20",
+      "brand": "Apple",
+      "color": "Black"
+    },
+    {
+      "id": "3",
+      "name": "iPhone 12",
+      "location": "Cafeteria",
+      "description": "Black iPhone with a cracked screen.",
+      "image": "https://placehold.co/400",
+      "lostDate": "2024-11-20",
+      "brand": "Apple",
+      "color": "Black"
+    },
+    {
+      "id": "4",
+      "name": "Bag",
+      "location": "Cafeteria",
+      "description": "Black Bagggdsdsds sdsdsdsds dsdsd sdsds dsds dsdsds dsds ds ds dsdsdsdsdsdefe fef ef eeeeefef f efe fe fe fe f efe f ef efdtgr gr grg with a cracked screen.",
+      "image": "https://placehold.co/400",
+      "lostDate": "2024-11-20",
+      "brand": "Apple",
+      "color": "Black"
+    },
+    {
+      "id": "5",
+      "name": "iPhone 12",
+      "location": "Cafeteria",
+      "description": "Black iPhone with a cracked screen.",
+      "image": "https://placehold.co/400",
+      "lostDate": "2024-11-20",
+      "brand": "Apple",
+      "color": "Black"
+    },
+    {
+      "id": "6",
+      "name": "iPhone 12",
+      "location": "Blue Tower",
+      "description": "Black iPhone with a cracked screen.",
+      "image": "https://placehold.co/400",
+      "lostDate": "2024-11-20",
+      "brand": "Apple",
+      "color": "Black"
     }
   ]
 }

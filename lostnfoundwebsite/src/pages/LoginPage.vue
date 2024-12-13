@@ -54,6 +54,12 @@
       if (this.email && this.password) {
         try {
           const response = await fetch(`${baseURL}/users?email=${this.email}`);
+        //  //Mohith Added this to assume that fetch call is success or fail
+           if (!response.ok) {
+            throw new Error("Failed to fetch user details");
+          } 
+          // added till here
+
           const data = await response.json();
 
           if (data.length > 0) {
@@ -62,6 +68,13 @@
 
             if (isPasswordValid) {
               alert("Login successful!");
+
+              // //Mohith Added local storage to store the users email and Matriculation Id in sessionstorage to dynamically take users matriculation id after user loggedIn
+              localStorage.setItem("loggedInUserEmail", user.email);
+              localStorage.setItem("loggedInUserMatriculationId", user.matriculationNumber); 
+              
+              console.log("Logged in user:", user);
+
               this.$store.commit("userAuthenticated", user.email);
               this.$router.push("/");
             } else {

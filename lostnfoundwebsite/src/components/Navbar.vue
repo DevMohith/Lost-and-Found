@@ -57,6 +57,9 @@ export default {
     },
     signOut() {
       this.$store.commit("userAuthenticated", null);
+      //Mohith added code to remove Local storage after user sign out
+      localStorage.removeItem("loggedInUserEmail");
+      localStorage.removeItem("loggedInUserMatriculationId"); //till here
       sessionStorage.removeItem("email");
       this.isDropdownVisible = false;
       this.$router.push("/login");
