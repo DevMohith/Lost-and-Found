@@ -1,14 +1,24 @@
 <template>
   <div id="app" class="app">
     <Navbar/>
-    <h1 class="title">Report Lost</h1>
+    
+    <div class="header">
+      <h1 class="title">{{ isReportLost ? 'Report Lost' : 'Report Found' }}</h1>
+      <div class="toggle-wrapper">
+        <label class="switch">
+          <input type="checkbox" v-model="isReportLost" />
+          <span class="slider round"></span>
+        </label>
+        <span class="toggle-text">{{ isReportLost ? 'Lost' : 'Found' }}</span>
+      </div>
+    </div>
+
 
     <main class="main">
       
-      <form @submit.prevent="submitLostItem" class="form">
+      <form @submit.prevent="isReportLost ? submitLostItem() : submitFoundItem()" class="form">
 
           <div class="left-section">
-        
           <div class="form-group">
             <label for="matriculation-id">Matriculation ID</label>
             <input
@@ -17,7 +27,7 @@
               id="matriculation-id"
               v-model="user.matriculationId"
               readonly
-              placeholder="Fetching your Matriculation ID"
+              placeholder="Fetching your Matriculation ID..."
             />
           </div>
 
@@ -61,7 +71,7 @@
           </div>
 
           <div class="form-group">
-            <label for="lost-location">Lost Location</label>
+            <label for="lost-location">{{ isReportLost ? 'Lost Location' : 'Found Location' }}</label>
             <select v-model="lostItem.location" id="lost-location">
               <option>Blue Tower</option>
               <option>Cafeteria</option>
@@ -123,7 +133,7 @@
         </div>
 
         <div class="form-group">
-            <label for="lost-date">Lost Date</label>
+            <label for="lost-date">{{ isReportLost ? 'Lost Date' : 'Found Date' }}</label>
             <input
               type="date"
               id="lost-date"
@@ -134,7 +144,7 @@
           </div>
          
         <div class="button-wrapper">
-        <button type="submit" class="submit-button">Submit Lost Item</button>
+        <button type="submit" class="submit-button">Submit {{ isReportLost ? 'Lost' : 'Found' }} Item</button>
       </div>
       </div>
     </form>
@@ -146,6 +156,7 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import Footer from '@/components/Footer.vue';
+import { reportFoundItem } from "../util.js";
 
 export default {
   name: "ReportLostPage",
@@ -155,11 +166,9 @@ export default {
   },
   data() {
     return {
-      user: {
-        name: "",
-        email: "",
-        matriculationId: "",
-      },
+      isReportLost: true,
+      loading: true,
+      user: { matriculationId: "" },
       lostItem: {
         id: null,
         name: "",
@@ -176,13 +185,16 @@ export default {
     };
   },
   methods: {
+    //Logic to fetch the Matriculation ID from DB
     async fetchUserDetails() {
+      this.loading = true; 
       try {
         const storedMatriculationId = localStorage.getItem("loggedInUserMatriculationId");
 
         if (storedMatriculationId) {
           this.user.matriculationId = storedMatriculationId;
-          console.log("Matriculation ID from localStorage:", storedMatriculationId);
+          this.loading = false;
+          // console.log("Matriculation ID from localStorage:", storedMatriculationId);
           return;
         }
 
@@ -202,36 +214,55 @@ export default {
 
 
 
-        const data = await response.json(); // Correctly parse response JSON
-
+        const data = await response.json(); 
         if (data.length > 0) {
-          this.user.matriculationId = data[0].matriculationNumber; // Assign matriculation number
+          this.user.matriculationId = data[0].matriculationNumber; 
           localStorage.setItem("loggedInUserMatriculationId", this.user.matriculationId);
-          console.log("Matriculation ID from API:", this.user.matriculationId);
+          // console.log("Matriculation ID from API:", this.user.matriculationId);
         } else {
           alert("User not found. Please log in again.");
           this.$router.push("/login");
         }
       } catch (error) {
         console.error("Error fetching user details:", error);
-        alert("Could not fetch user details.");
-      }
-    },
-  
+        alert("Could not fetch user details. Please try again.");
+        this.$router.push("/login");
+      }finally {
+      this.loading = false; // Reset loading state
+    }
+  },
+    //Logic to handle the file (image) upload to the db.
     handleFileChange(event) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.lostItem.image = e.target.result; // Save Base64 image data
+          this.lostItem.image = e.target.result;
         };
-        reader.readAsDataURL(file);
-      }
-    },
+          reader.readAsDataURL(file);
+        }
+      },
 
-    
+    //   validateForm() {
+    //   const requiredFields = ["name", "category", "color", "location", "contact", "description", "image", "date"];
+    //   for (const field of requiredFields) {
+    //     if (!this.lostItem[field]) {
+    //       alert(`Please fill in the ${field} field.`);
+    //       return false;
+    //     }
+    //   }
+    //   return true;
+    // },
+
+
+    //Logic for submitting lost item to db
 
   async submitLostItem() {
+    if (!this.user.matriculationId) {
+      alert("You must be logged in to report a lost item.");
+      this.$router.push("/login");
+      return;
+    }
     if (
       !this.lostItem.name ||
       !this.lostItem.category ||
@@ -261,6 +292,7 @@ export default {
 
       if (response.ok) {
         alert("Lost item reported successfully!");
+        this.resetForm();
         this.$router.push("/LostItems");
       } else {
         throw new Error(`Error: ${response.statusText}`);
@@ -270,16 +302,74 @@ export default {
       alert("Could not submit the form. Please try again.");
     }
   },
+
+  async submitFoundItem() {
+    if (!this.user.matriculationId) {
+      alert("You must be logged in to report a found item.");
+      this.$router.push("/login");
+      return;
+    }
+      // Validate required fields
+      if (
+        !this.lostItem.name ||
+        !this.lostItem.category ||
+        !this.lostItem.color ||
+        !this.lostItem.location ||
+        !this.lostItem.contact ||
+        !this.lostItem.description ||
+        !this.lostItem.image ||
+        !this.lostItem.date
+      ) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+    this.lostItem.matriculationId = this.user.matriculationId;
+
+  try {
+        // Call the reportFoundItem function to save the found item
+        const response = await reportFoundItem(this.lostItem); 
+
+        if (response.ok) {
+          alert("Found item reported successfully!");
+          this.resetForm();
+          this.$router.push("/myposts");
+        } else {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+      } catch (error) {
+        console.error("Failed to report found item:", error);
+        alert("Could not submit the form. Please try again.");
+      }
+    },
+  
+
+resetForm() {
+  this.lostItem = {
+    id: null,
+    name: "",
+    category: "",
+    color: "",
+    location: "",
+    brand: "",
+    description: "",
+    contact: "",
+    image: null,
+    date: "",
+  };
+  }
 },
 
   created() {
     this.fetchUserDetails();
-  },
-};
+    },
+  };
+  
+
  
 </script>
 
-<style scoped>
+<style>
 .app {
   font-family: Arial, sans-serif;
   color: #000;
@@ -288,12 +378,16 @@ export default {
   margin: 0;
 }
 
-.header {
+#app .header h1 {
+  text-align: center;
+}
+
+.header h1  {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   padding: 10px 20px;
-  background-color: #fff;
+  background-color: #f8f8f8;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -302,18 +396,19 @@ export default {
   font-weight: bold;
 }
 
-.nav {
+
+/* .nav {
   display: flex;
   align-items: center;
   gap: 10px;
-}
+} */
 
-.nav {
+/* .nav {
   display: flex;
   
   align-items: center;
   gap: 10px;
-}
+} */
 
 #matriculation-id {
   width: 200px;
@@ -339,17 +434,6 @@ export default {
   gap: 10px;
 }
 
-.nav-link {
-  text-decoration: none;
-  color: #000;
-  padding: 5px 10px;
-}
-
-
-.nav-link.active {
-  border-bottom: 2px solid ;
-  color: #0469ff;
-}
 
 .sign-out {
   width: 100px;
@@ -484,5 +568,68 @@ textarea {
   transform: scale(1);
 }
 
+/* Styles for Toggle Button */
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 48%;  /* Push toggle to the right */
+  margin-right: 0; /* Keep it centered */
+  
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color:red; /* Green when Found */
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px); /* Move slider button to the right */
+}
+
+/* When the checkbox is unchecked (for Lost) */
+input:not(:checked) + .slider {
+  background-color: green; /* Red when Lost */
+}
+
+input:not(:checked) + .slider:before {
+  transform: translateX(0); /* Keep slider button to the left */
+}
 </style>
 

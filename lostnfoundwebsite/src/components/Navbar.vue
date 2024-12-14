@@ -110,6 +110,10 @@ export default {
   cursor: pointer;
 }
 
+.nav-link.active {
+  color: #0469ff;
+}
+
 .dropdown-toggle {
   background: none;
   border: none;
