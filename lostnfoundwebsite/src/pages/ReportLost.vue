@@ -128,7 +128,6 @@
               @change="handleFileChange"/> <!--Unable to bind the image into V-model--> <!---we dont have lost date-->
             </div>
             <div v-if="lostItem.image" class="image-preview">
-              <img :src="lostItem.image" alt="Preview of Lost Item" />
           </div>
         </div>
 

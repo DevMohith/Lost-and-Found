@@ -29,7 +29,7 @@
           elit, scelerisque fringilla risus non, fringilla imperdiet lectus.
         </p>
         <div class="buttons">
-          <router-link to="/reportFound"><button class="btn-success">Report Found Item</button></router-link>
+          <router-link to="/reportLost"><button class="btn-success">Report Found Item</button></router-link>
           <router-link to="/foundItems"><button class="btn-outline-success">Found Item</button></router-link>
         </div>
       </div>
