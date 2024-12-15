@@ -156,7 +156,7 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import Footer from '@/components/Footer.vue';
-import { reportFoundItem } from "../util.js";
+// import { reportFoundItem } from "../util.js";
 
 export default {
   name: "ReportLostPage",
@@ -257,23 +257,59 @@ export default {
 
     //Logic for submitting lost item to db
 
-  async submitLostItem() {
+    async submitLostItem() {
+  if (!this.user.matriculationId) {
+    alert("You must be logged in to report an item.");
+    this.$router.push("/login");
+    return;
+  }
+
+  if (!this.lostItem.name || !this.lostItem.category || !this.lostItem.color || !this.lostItem.location || !this.lostItem.contact || !this.lostItem.description || !this.lostItem.image || !this.lostItem.date) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  this.lostItem.id = Date.now().toString(); // Generate a unique ID
+
+  try {
+    const saveResponse = await fetch("http://localhost:5001/lostItems", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...this.lostItem,
+        matriculationId: this.user.matriculationId,
+      }),
+    });
+
+    if (saveResponse.ok) {
+      const foundItemsResponse = await fetch("http://localhost:5001/foundItems");
+      const foundItems = await foundItemsResponse.json();
+      const matches = this.matchFoundItems(foundItems);
+
+      this.$router.push({
+        path: "/foundItems",
+        query: { matches: JSON.stringify(matches) },
+        name: "FoundItems",
+        params: { lostItem: this.lostItem },
+      });
+    } else {
+      throw new Error(`Error: ${saveResponse.statusText}`);
+    }
+  } catch (error) {
+    console.error("Failed to report item:", error);
+    alert("Could not submit the form. Please try again.");
+  }
+},
+
+  // Logic for submitting found item
+  async submitFoundItem() {
     if (!this.user.matriculationId) {
-      alert("You must be logged in to report a lost item.");
+      alert("You must be logged in to report an item.");
       this.$router.push("/login");
       return;
     }
-    if (
-      !this.lostItem.name ||
-      !this.lostItem.category ||
-      !this.lostItem.color ||
-      !this.lostItem.location ||
-      !this.lostItem.contact ||
-      !this.lostItem.description ||
-      !this.lostItem.image ||
-      !this.lostItem.date
 
-    ) {
+    if (!this.lostItem.name || !this.lostItem.category || !this.lostItem.color || !this.lostItem.location || !this.lostItem.contact || !this.lostItem.description || !this.lostItem.image || !this.lostItem.date) {
       alert("Please fill in all required fields.");
       return;
     }
@@ -281,68 +317,58 @@ export default {
     this.lostItem.id = Date.now().toString(); // Generate a unique ID
 
     try {
-      const response = await fetch("http://localhost:5001/lostItems", {
+      const saveResponse = await fetch("http://localhost:5001/foundItems", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...this.lostItem,
           matriculationId: this.user.matriculationId,
-          }),
+        }),
       });
 
-      if (response.ok) {
-        alert("Lost item reported successfully!");
-        this.resetForm();
-        this.$router.push("/LostItems");
+      if (saveResponse.ok) {
+        alert("The found item has been successfully submitted.");
+        this.$router.push("/");
       } else {
-        throw new Error(`Error: ${response.statusText}`);
+        throw new Error(`Error: ${saveResponse.statusText}`);
       }
     } catch (error) {
-      console.error("Failed to report lost item:", error);
+      console.error("Failed to report item:", error);
       alert("Could not submit the form. Please try again.");
     }
   },
 
-  async submitFoundItem() {
-    if (!this.user.matriculationId) {
-      alert("You must be logged in to report a found item.");
-      this.$router.push("/login");
-      return;
+  matchFoundItems(foundItems) {
+  const matches = [];
+
+  foundItems.forEach((foundItem) => {
+    let matchScore = 0;
+
+    // Check if any of the attributes match
+    if (this.lostItem.name && foundItem.name.toLowerCase().includes(this.lostItem.name.toLowerCase())) {
+      matchScore += 30; // Higher weight for name match
     }
-      // Validate required fields
-      if (
-        !this.lostItem.name ||
-        !this.lostItem.category ||
-        !this.lostItem.color ||
-        !this.lostItem.location ||
-        !this.lostItem.contact ||
-        !this.lostItem.description ||
-        !this.lostItem.image ||
-        !this.lostItem.date
-      ) {
-        alert("Please fill in all required fields.");
-        return;
-      }
+    if (this.lostItem.category && foundItem.category === this.lostItem.category) {
+      matchScore += 20; // Medium weight for category match
+    }
+    if (this.lostItem.color && foundItem.color === this.lostItem.color) {
+      matchScore += 20; // Medium weight for color match
+    }
+    if (this.lostItem.location && foundItem.location === this.lostItem.location) {
+      matchScore += 10; // Lower weight for location match
+    }
 
-    this.lostItem.matriculationId = this.user.matriculationId;
+    // Add the found item to the matches if it has a non-zero match score
+    if (matchScore > 0) {
+      matches.push({ ...foundItem, matchScore });
+    }
+  });
 
-  try {
-        // Call the reportFoundItem function to save the found item
-        const response = await reportFoundItem(this.lostItem); 
+  // Sort matches by matchScore in descending order
+  matches.sort((a, b) => b.matchScore - a.matchScore);
 
-        if (response.ok) {
-          alert("Found item reported successfully!");
-          this.resetForm();
-          this.$router.push("/myposts");
-        } else {
-          throw new Error(`Error: ${response.statusText}`);
-        }
-      } catch (error) {
-        console.error("Failed to report found item:", error);
-        alert("Could not submit the form. Please try again.");
-      }
-    },
-  
+  return matches;
+},
 
 resetForm() {
   this.lostItem = {
@@ -361,6 +387,8 @@ resetForm() {
 },
 
   created() {
+    const matchesQuery = this.$route.query.matches;
+    this.matches = matchesQuery ? JSON.parse(matchesQuery) : [];
     this.fetchUserDetails();
     },
   };
