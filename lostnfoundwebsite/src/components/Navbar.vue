@@ -48,8 +48,15 @@ export default {
   computed: {
     ...mapState(["user"]),
     isUserLoggedIn() {
-      return this.user !== null;
+      return this.user !== null || localStorage.getItem("loggedInUserEmail") !== null;
     },
+  },
+  mounted() {
+    // Sync Vuex state with localStorage on page load
+    const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
+    if (loggedInUserEmail && !this.user) {
+      this.$store.commit("userAuthenticated", loggedInUserEmail);
+    }
   },
   methods: {
     toggleDropdown() {
