@@ -16,8 +16,8 @@
         <button class="view-more-btn">View More</button>
       </router-link>
       <div v-else-if="mode === 'manage'">
-        <button class="edit-btn">Edit</button>
-        <button class="delete-btn">Delete</button>
+        <button class="edit-btn" @click="$emit('edit', lostitem)">Edit</button>
+  <button class="delete-btn" @click="$emit('delete', lostitem.id)">Delete</button>
       </div>
     </div>
   </div>

@@ -5,7 +5,14 @@
     <section>
       <h2>Lost Items</h2>
       <div v-if="myPosts.length" class="product-grid">
-        <LostItem v-for="post in myPosts" :key="post.id" :lostitem="post" mode="manage" />
+        <LostItem
+          v-for="post in myPosts"
+          :key="post.id"
+          :lostitem="post"
+          mode="manage"
+          @edit="handleEdit"
+          @delete="handleDelete"
+        />
       </div>
       <div v-else class="no-posts product-grid">
         <p>You have not posted any lost items yet.</p>
@@ -43,8 +50,23 @@ export default {
   computed: {
     ...mapState(["myPosts"]),
   },
-   methods: {
-    ...mapActions(["fetchMyPosts"]),
+  methods: {
+    ...mapActions(["fetchMyPosts", "deleteLostItem", "updateLostItem"]),
+    handleEdit(item) {
+      this.$router.push({
+        name: "ReportLost",
+        query: { edit: true, ...item },
+      });
+    },
+    async handleDelete(id) {
+      const confirmed = confirm(
+        "Are you sure you want to delete this lost item post?"
+      );
+      if (confirmed) {
+        await this.deleteLostItem(id);
+        this.fetchMyPosts();
+      }
+    },
   },
   async created() {
     await this.fetchMyPosts();
@@ -59,7 +81,7 @@ export default {
 
 .product-grid {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 20px;
   justify-content: space-evenly;
   margin-left: 6rem;
