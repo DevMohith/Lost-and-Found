@@ -6,6 +6,7 @@ import LostItems from "../pages/LostItems.vue";
 import LostItemDetails from "../pages/LostItemDetails.vue";
 import ReportLost from "@/pages/ReportLost.vue";
 import MyPosts from "../pages/MyPosts.vue";
+import FoundItems from "@/pages/FoundItems.vue";
 
 const routes = [
   {
@@ -44,6 +45,11 @@ const routes = [
     path: "/myposts",
     name: "MyPosts",
     component: MyPosts,
+  },
+  {
+    path: "/founditems",
+    name: "FoundItems",
+    component: FoundItems,
   },
 ];
 
