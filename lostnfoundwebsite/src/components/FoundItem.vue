@@ -1,35 +1,27 @@
 <template>
   <div class="product-card">
-    <img :src="lostitem.image" :alt="lostitem.name" class="product-image" />
-    <h3 class="product-name">{{ lostitem.name }}</h3>
-    <p class="product-description">{{ lostitem.category }}</p>
-    <p class="product-description">{{ lostitem.location }}</p>
-    <p class="product-description">{{ lostitem.brand }}</p>
-    <p class="product-description">{{ lostitem.color }}</p>
+    <img :src="founditem.image" :alt="founditem.name" class="product-image" />
+    <h3 class="product-name">{{ founditem.name }}</h3>
+    <p class="product-description">{{ founditem.category }}</p>
+    <p class="product-description">{{ founditem.location }}</p>
+    <p class="product-description">{{ founditem.brand }}</p>
+    <p class="product-description">{{ founditem.color }}</p>
     <div class="buttonDiv">
-     <router-link v-if="mode === 'view'" :to="`/lostitems/${lostitem.id}`">
-        <button class="view-more-btn">View More</button>
-      </router-link>
-      <div v-else-if="mode === 'manage'">
-        <button class="edit-btn" @click="$emit('edit', lostitem)">Edit</button>
-  <button class="delete-btn" @click="$emit('delete', lostitem.id)">Delete</button>
-      </div>
+   <button class="edit-btn" @click="$emit('edit', founditem)">Edit</button>
+  <button class="delete-btn" @click="$emit('delete', founditem.id)">Delete</button>     
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "LostItem",
+  name: "FoundItem",
   props: {
-    lostitem: {
+    founditem: {
       type: Object,
       required: true,
     },
-     mode: {
-      type: String,
-      default: "view",
-    },
+     
   },
  
 };

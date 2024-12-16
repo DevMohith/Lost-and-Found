@@ -7,6 +7,7 @@ export default createStore({
     lostItems: [],
     selectedLostItem: null,
     myPosts: [],
+    myFoundItems: [],
   },
   getters: {
     getLostItemById: (state) => (id) => {
@@ -37,6 +38,18 @@ export default createStore({
         state.myPosts.splice(index, 1, updatedPost);
       }
     },
+    setMyFoundItems(state, items) {
+      state.myFoundItems = items;
+    },
+    removeFoundItem(state, id) {
+      state.myFoundItems = state.myFoundItems.filter((item) => item.id !== id);
+    },
+    updateFoundItem(state, updatedItem) {
+      const index = state.myFoundItems.findIndex((item) => item.id === updatedItem.id);
+      if (index !== -1) {
+        state.myFoundItems.splice(index, 1, updatedItem);
+      }
+    },
   },
   actions: {
     async fetchLostItems({ commit }) {
@@ -48,48 +61,44 @@ export default createStore({
       commit("setSelectedLostItem", item);
     },
     async fetchMyPosts({ commit }) {
-      const matriculationNumber = localStorage.getItem(
-        "loggedInUserMatriculationId"
-      );
+      const matriculationNumber = localStorage.getItem("loggedInUserMatriculationId");
       const items = await util.fetchLostItems();
-      const myPosts = items.filter(
-        (item) => item.matriculationId === matriculationNumber
-      );
+      const myPosts = items.filter((item) => item.matriculationId === matriculationNumber);
       commit("setMyPosts", myPosts);
     },
     async deleteLostItem({ commit }, id) {
-      try {
-        const res = await fetch(`http://localhost:5001/lostItems/${id}`, {
-          method: "DELETE",
-        });
-        if (res.ok) {
-          commit("deletePost", id);
-        } else {
-          alert("Failed to delete post.");
-        }
-      } catch (error) {
-        console.error("Error deleting post:", error);
+      const success = await util.deleteLostItem(id);
+      if (success) {
+        commit("deletePost", id);
+      } else {
+        alert("Failed to delete the lost item.");
       }
     },
-    async updateLostItem({ commit }, updatedPost) {
-      try {
-        const res = await fetch(`http://localhost:5001/lostItems/${updatedPost.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedPost),
-        });
-        if (res.ok) {
-          const data = await res.json();
-          commit("updatePost", data);
-        } else {
-          alert("Failed to update post.");
-        }
-      } catch (error) {
-        console.error("Error updating post:", error);
+    async updateLostItem({ commit }, updatedItem) {
+      const updated = await util.updateLostItem(updatedItem);
+      commit("updatePost", updated);
+    },
+    async fetchMyFoundItems({ commit }) {
+      const matriculationId = localStorage.getItem("loggedInUserMatriculationId");
+      const foundItems = await util.fetchFoundItems();
+      const myFoundItems = foundItems.filter(
+        (item) => item.matriculationId === matriculationId
+      );
+      commit("setMyFoundItems", myFoundItems);
+    },
+    async deleteFoundItem({ commit }, id) {
+      const success = await util.deleteFoundItem(id);
+      if (success) {
+        commit("removeFoundItem", id);
+      } else {
+        alert("Failed to delete the found item.");
       }
     },
+    async updateFoundItem({ commit }, updatedItem) {
+      const updated = await util.updateFoundItem(updatedItem);
+      commit("updateFoundItem", updated);
+    },
+  
   },
   modules: {},
 });

@@ -154,7 +154,7 @@
 
           <div class="button-wrapper">
             <button type="submit" class="submit-button">
-              Submit {{ isReportLost ? "Lost" : "Found" }} Item
+              {{ isEditMode ? "Save Changes" : isReportLost ? "Submit Lost Item" : "Submit Found Item" }}
             </button>
           </div>
         </div>
@@ -178,6 +178,7 @@ export default {
   data() {
     return {
       isReportLost: true,
+      isEditMode: false,
       loading: true,
       user: { matriculationId: "" },
       lostItem: {
@@ -198,6 +199,9 @@ export default {
     //Logic to fetch the Matriculation ID from DB
     async fetchUserDetails() {
       this.loading = true;
+      if (this.$route.query.edit) {
+    this.isEditMode = true;     
+  }
       try {
         const storedMatriculationId = localStorage.getItem(
           "loggedInUserMatriculationId"
@@ -335,49 +339,60 @@ export default {
 
     // Logic for submitting found item
     async submitFoundItem() {
-      if (!this.user.matriculationId) {
-        alert("You must be logged in to report an item.");
-        this.$router.push("/login");
-        return;
+  if (this.isEditMode) {
+    try {
+      await this.$store.dispatch("updateFoundItem", this.lostItem); 
+      alert("Found Item updated successfully!");
+      this.$router.push("/myposts");
+    } catch (error) {
+      console.error("Error updating found item:", error);
+      alert("Failed to update Found Item.");
+    }
+  } else {
+    if (!this.user.matriculationId) {
+      alert("You must be logged in to report an item.");
+      this.$router.push("/login");
+      return;
+    }
+
+    if (
+      !this.lostItem.name ||
+      !this.lostItem.category ||
+      !this.lostItem.color ||
+      !this.lostItem.location ||
+      !this.lostItem.contact ||
+      !this.lostItem.description ||
+      !this.lostItem.image ||
+      !this.lostItem.date
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    this.lostItem.id = Date.now().toString();
+
+    try {
+      const response = await fetch("http://localhost:5001/foundItems", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...this.lostItem,
+          matriculationId: this.user.matriculationId,
+        }),
+      });
+
+      if (response.ok) {
+        alert("The found item has been successfully submitted.");
+        this.$router.push("/");
+      } else {
+        throw new Error("Failed to submit Found Item.");
       }
-
-      if (
-        !this.lostItem.name ||
-        !this.lostItem.category ||
-        !this.lostItem.color ||
-        !this.lostItem.location ||
-        !this.lostItem.contact ||
-        !this.lostItem.description ||
-        !this.lostItem.image ||
-        !this.lostItem.date
-      ) {
-        alert("Please fill in all required fields.");
-        return;
-      }
-
-      this.lostItem.id = Date.now().toString(); // Generate a unique ID
-
-      try {
-        const saveResponse = await fetch("http://localhost:5001/foundItems", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...this.lostItem,
-            matriculationId: this.user.matriculationId,
-          }),
-        });
-
-        if (saveResponse.ok) {
-          alert("The found item has been successfully submitted.");
-          this.$router.push("/");
-        } else {
-          throw new Error(`Error: ${saveResponse.statusText}`);
-        }
-      } catch (error) {
-        console.error("Failed to report item:", error);
-        alert("Could not submit the form. Please try again.");
-      }
-    },
+    } catch (error) {
+      console.error("Failed to submit found item:", error);
+      alert("Could not submit the form. Please try again.");
+    }
+  }
+},
 
     matchFoundItems(foundItems) {
       const matches = [];
@@ -441,10 +456,18 @@ export default {
   created() {
     const matchesQuery = this.$route.query.matches;
     this.matches = matchesQuery ? JSON.parse(matchesQuery) : [];
-    this.fetchUserDetails();
+    this.fetchUserDetails();      
     if (this.$route.query.edit) {
+    this.isEditMode = true;  
+    
+    if (this.$route.query.isLostItem === "true") {
+      this.isReportLost = true;
+      this.lostItem = { ...this.$route.query };
+    } else {
+      this.isReportLost = false; 
       this.lostItem = { ...this.$route.query };
     }
+  }
   },
 };
 </script>
