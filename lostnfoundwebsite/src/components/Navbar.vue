@@ -1,8 +1,7 @@
 <template>
   <header class="header">
-    <div class="logo">LOST & FOUND</div>
-    <nav class="nav">
-      <div class="router-links">
+    <div class="logo"><img src="../assets/logo.png" alt="Lost and Found Logo"></div>
+    <div class="router-links">
         <router-link
           class="nav-link"
           active-class="active"
@@ -28,6 +27,7 @@
           Report
         </router-link>
       </div>
+    <nav class="nav">
       <div class="profile-actions">
         <router-link
           v-if="!isUserLoggedIn"
@@ -120,9 +120,11 @@ export default {
 
 .router-links {
   display: flex;
-  gap: 15px;
+  gap: 400px;
   padding: 10px;
   background-color: #fff;
+  border: 2px solid #0469ff;
+  border-radius: 50px;
 }
 
 .profile-actions {
