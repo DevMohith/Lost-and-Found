@@ -182,17 +182,11 @@
     },
     {
       "edit": "true",
-<<<<<<< HEAD
       "isLostItem": "true",
       "id": "1734367202408",
       "name": "ewewd",
       "category": "Bags",
       "color": "Red",
-=======
-      "id": "1734260792823",
-      "name": "Key Chain",
-      "category": "Others",
-      "color": "White",
       "location": "MPS 3",
       "brand": "sdfdsfsd ",
       "description": "ewfewf wfwfefw fwefwe",
@@ -232,7 +226,6 @@
       "name": "Charger",
       "category": "Bags",
       "color": "White",
->>>>>>> cc4de7e0d778396ace9118d90c7d88f4ced4817b
       "location": "Cafeteria",
       "brand": "eerw",
       "description": "erer ere rer er",
