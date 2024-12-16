@@ -1,51 +1,60 @@
 <template>
     <div>
-      <Navbar />
-      <h1>Matching Found Items</h1>
-      <div v-if="matches.length">
-        <div v-for="(item, index) in matches" :key="index" class="match-item">
-          <h3>{{ item.name }}</h3>
-          <p>Category: {{ item.category }}</p>
-          <p>Color: {{ item.color }}</p>
-          <p>Location: {{ item.location }}</p>
-          <p>Match Score: {{ item.matchScore }}%</p>
-        </div>
-      </div>
-      <div v-else>
-        <p>No matching items found.</p>
-      </div>
-      <Footer />
+        <Navbar />
+        <h1>Matching Found Items</h1>
+        <div v-if="matches.length" class="card-container">
+      <LostItem
+        v-for="(item, index) in matches"
+        :key="index"
+        :lostitem="item"
+        mode="view"
+        :showMatchScore="true"
+        :matchScore="item.matchScore"
+      />
     </div>
-  </template>
-  
-  <script>
-  import Navbar from "@/components/Navbar.vue";
-  import Footer from "@/components/Footer.vue";
-  
-  export default {
+        <div v-else>
+            <p>No matching items found.</p>
+        </div>
+        <Footer />
+    </div>
+</template>
+
+<script>
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
+import LostItem from "@/components/LostItem.vue";
+
+export default {
     name: "FoundItems",
-    components: { Navbar, Footer },
+    components: { Navbar, Footer, LostItem },
     data() {
-      return {
-        matches: [],
-      };
+        return {
+            matches: [],
+        };
     },
     created() {
-      const matchesQuery = this.$route.query.matches;
-      if (matchesQuery) {
-        this.matches = JSON.parse(matchesQuery);
-      }
+        const matchesQuery = this.$route.query.matches;
+        if (matchesQuery) {
+            this.matches = JSON.parse(matchesQuery);
+        }
     },
-  };
-  </script>
-  
-  <style>
-  .match-item {
+};
+</script>
+
+<style>
+.match-item {
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px 0;
     border-radius: 8px;
     background-color: #f9f9f9;
-  }
-  </style>
-  
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap into the next row */
+  justify-content: center; /* Center the cards horizontally */
+  gap: 20px; /* Space between cards */
+  margin: 0 auto;
+}
+</style>
