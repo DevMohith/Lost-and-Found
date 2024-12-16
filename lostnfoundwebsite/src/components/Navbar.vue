@@ -120,7 +120,7 @@ export default {
 
 .router-links {
   display: flex;
-  gap: 400px;
+  gap: 200px;
   padding: 10px;
   background-color: #fff;
   border: 2px solid #0469ff;
