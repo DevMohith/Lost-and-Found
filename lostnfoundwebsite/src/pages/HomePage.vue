@@ -52,9 +52,9 @@ export default {
 </script>
 
 <style scoped>
-body {
-  margin: 0;
-  padding: 0;
+
+* {
+  background-color: #F5F5F6;
 }
 
 .container {

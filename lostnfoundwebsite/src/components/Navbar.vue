@@ -136,7 +136,7 @@ export default {
 
 .nav-link {
   text-decoration: none;
-  color: #000;
+  color: #5B5966;
   padding: 5px 10px;
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -145,7 +145,6 @@ export default {
 
 .nav-link.active {
   color: #0469ff;
-  border-bottom: 2px solid #0469ff;
 }
 
 .dropdown-toggle {
