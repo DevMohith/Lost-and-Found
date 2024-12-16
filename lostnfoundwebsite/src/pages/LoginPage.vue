@@ -46,19 +46,26 @@
         password: "",
         headerColor: "#002246",
         textColor: "#D14B3F",
-        text1Color: "#002246"
+        text1Color: "#002246",
+        isLoggedIn: false
       };
     },
+    mounted() {
+    // Check if user is already logged in
+    const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
+    if (loggedInUserEmail) {
+      this.isLoggedIn = true;
+      this.email = loggedInUserEmail; // Optional: Pre-fill the email
+    }
+  },
     methods: {
-    async onSubmit() {
+      async onSubmit() {
       if (this.email && this.password) {
         try {
           const response = await fetch(`${baseURL}/users?email=${this.email}`);
-        //  //Mohith Added this to assume that fetch call is success or fail
-           if (!response.ok) {
+          if (!response.ok) {
             throw new Error("Failed to fetch user details");
-          } 
-          // added till here
+          }
 
           const data = await response.json();
 
@@ -69,12 +76,13 @@
             if (isPasswordValid) {
               alert("Login successful!");
 
-              // //Mohith Added local storage to store the users email and Matriculation Id in sessionstorage to dynamically take users matriculation id after user loggedIn
+              // Store user data in localStorage
               localStorage.setItem("loggedInUserEmail", user.email);
-              localStorage.setItem("loggedInUserMatriculationId", user.matriculationNumber); 
-              
+              localStorage.setItem("loggedInUserMatriculationId", user.matriculationNumber);
+
               console.log("Logged in user:", user);
 
+              this.isLoggedIn = true;
               this.$store.commit("userAuthenticated", user.email);
               this.$router.push("/");
             } else {
@@ -90,6 +98,16 @@
       } else {
         alert("Please fill in all fields.");
       }
+    },
+    logout() {
+      // Clear localStorage and Vuex state
+      localStorage.removeItem("loggedInUserEmail");
+      localStorage.removeItem("loggedInUserMatriculationId");
+      this.$store.commit("userAuthenticated", null);
+
+      // Redirect to login page
+      this.isLoggedIn = false;
+      this.$router.push("/login");
     },
   },
   };

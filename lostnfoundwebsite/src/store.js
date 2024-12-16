@@ -7,6 +7,7 @@ export default createStore({
     lostItems: [],
     selectedLostItem: null,
     myPosts: [],
+    myFoundItems: [],
   },
   getters: {
     getLostItemById: (state) => (id) => {
@@ -28,6 +29,27 @@ export default createStore({
     setMyPosts(state, items) {
       state.myPosts = items;
     },
+    deletePost(state, id) {
+      state.myPosts = state.myPosts.filter((post) => post.id !== id);
+    },
+    updatePost(state, updatedPost) {
+      const index = state.myPosts.findIndex((post) => post.id === updatedPost.id);
+      if (index !== -1) {
+        state.myPosts.splice(index, 1, updatedPost);
+      }
+    },
+    setMyFoundItems(state, items) {
+      state.myFoundItems = items;
+    },
+    removeFoundItem(state, id) {
+      state.myFoundItems = state.myFoundItems.filter((item) => item.id !== id);
+    },
+    updateFoundItem(state, updatedItem) {
+      const index = state.myFoundItems.findIndex((item) => item.id === updatedItem.id);
+      if (index !== -1) {
+        state.myFoundItems.splice(index, 1, updatedItem);
+      }
+    },
   },
   actions: {
     async fetchLostItems({ commit }) {
@@ -39,15 +61,44 @@ export default createStore({
       commit("setSelectedLostItem", item);
     },
     async fetchMyPosts({ commit }) {
-      const matriculationNumber = localStorage.getItem(
-        "loggedInUserMatriculationId"
-      );
+      const matriculationNumber = localStorage.getItem("loggedInUserMatriculationId");
       const items = await util.fetchLostItems();
-      const myPosts = items.filter(
-        (item) => item.matriculationId === matriculationNumber
-      );
+      const myPosts = items.filter((item) => item.matriculationId === matriculationNumber);
       commit("setMyPosts", myPosts);
     },
+    async deleteLostItem({ commit }, id) {
+      const success = await util.deleteLostItem(id);
+      if (success) {
+        commit("deletePost", id);
+      } else {
+        alert("Failed to delete the lost item.");
+      }
+    },
+    async updateLostItem({ commit }, updatedItem) {
+      const updated = await util.updateLostItem(updatedItem);
+      commit("updatePost", updated);
+    },
+    async fetchMyFoundItems({ commit }) {
+      const matriculationId = localStorage.getItem("loggedInUserMatriculationId");
+      const foundItems = await util.fetchFoundItems();
+      const myFoundItems = foundItems.filter(
+        (item) => item.matriculationId === matriculationId
+      );
+      commit("setMyFoundItems", myFoundItems);
+    },
+    async deleteFoundItem({ commit }, id) {
+      const success = await util.deleteFoundItem(id);
+      if (success) {
+        commit("removeFoundItem", id);
+      } else {
+        alert("Failed to delete the found item.");
+      }
+    },
+    async updateFoundItem({ commit }, updatedItem) {
+      const updated = await util.updateFoundItem(updatedItem);
+      commit("updateFoundItem", updated);
+    },
+  
   },
   modules: {},
 });

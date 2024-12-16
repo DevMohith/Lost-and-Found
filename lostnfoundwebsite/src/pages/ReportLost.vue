@@ -1,24 +1,21 @@
 <template>
   <div id="app" class="app">
-    <Navbar/>
-    
+    <Navbar />
+
     <div class="header">
-      <h1 class="title">{{ isReportLost ? 'Report Lost' : 'Report Found' }}</h1>
+      <h1 class="title">{{ isReportLost ? "Report Lost" : "Report Found" }}</h1>
       <div class="toggle-wrapper">
         <label class="switch">
           <input type="checkbox" v-model="isReportLost" />
           <span class="slider round"></span>
         </label>
-        <span class="toggle-text">{{ isReportLost ? 'Lost' : 'Found' }}</span>
+        <span class="toggle-text">{{ isReportLost ? "Lost" : "Found" }}</span>
       </div>
     </div>
 
-
     <main class="main">
-      
       <form @submit.prevent="isReportLost ? submitLostItem() : submitFoundItem()" class="form">
-
-          <div class="left-section">
+        <div class="left-section">
           <div class="form-group">
             <label for="matriculation-id">Matriculation ID</label>
             <input
@@ -33,12 +30,13 @@
 
           <div class="form-group">
             <label for="item-name">Item Name</label>
-            <input 
-            class="box" 
-            type="text" 
-            id="item-name" 
-            v-model="lostItem.name"  
-            placeholder="Add your lost item" />
+            <input
+              class="box"
+              type="text"
+              id="item-name"
+              v-model="lostItem.name"
+              placeholder="Add your lost item"
+            />
           </div>
 
           <div class="form-group">
@@ -71,7 +69,7 @@
           </div>
 
           <div class="form-group">
-            <label for="lost-location">{{ isReportLost ? 'Lost Location' : 'Found Location' }}</label>
+            <label for="lost-location">{{isReportLost ? "Lost Location" : "Found Location"}}</label>
             <select v-model="lostItem.location" id="lost-location">
               <option>Blue Tower</option>
               <option>Cafeteria</option>
@@ -84,55 +82,55 @@
               <option>SRH Gym</option>
               <option>MPS 3</option>
               <option>Others</option>
-              
             </select>
           </div>
 
           <div class="form-group">
             <label for="item-brand">Item Brand</label>
-            <input 
-            class="box" 
-            type="text" 
-            id="item-brand"
-            v-model="lostItem.brand" 
-            placeholder="Nothing" />
+            <input
+              class="box"
+              type="text"
+              id="item-brand"
+              v-model="lostItem.brand"
+              placeholder="Nothing"
+            />
           </div>
         </div>
 
-         
         <div class="right-section">
           <div class="form-group">
             <label for="item-description">Item Description</label>
-            <textarea 
-            id="item-description" 
-            v-model="lostItem.description"
-            placeholder="Describe the item in detail..."
+            <textarea
+              id="item-description"
+              v-model="lostItem.description"
+              placeholder="Describe the item in detail..."
             ></textarea>
           </div>
 
           <div class="form-group">
             <label for="contact-information">Contact </label>
-            <input type="email" 
-             id="contact-information" 
-             placeholder="lostandfoInformationund@anymail.com " 
-             v-model="lostItem.contact"/>
+            <input
+              type="email"
+              id="contact-information"
+              placeholder="lostandfoInformationund@anymail.com "
+              v-model="lostItem.contact"
+            />
           </div>
 
           <div class="form-group">
             <label for="item-image">Item Image</label>
             <div class="file-input-wrapper">
-              <input 
-              type="file" 
-              id="item-image" 
-              accept="image/*" 
-              @change="handleFileChange"/> <!--Unable to bind the image into V-model--> <!---we dont have lost date-->
-            </div>
-            <div v-if="lostItem.image" class="image-preview">
+              <input
+                type="file"
+                id="item-image"
+                accept="image/*"
+                @change="handleFileChange"
+              />
+               </div>
           </div>
-        </div>
 
-        <div class="form-group">
-            <label for="lost-date">{{ isReportLost ? 'Lost Date' : 'Found Date' }}</label>
+          <div class="form-group">
+            <label for="lost-date">{{isReportLost ? "Lost Date" : "Found Date"}}</label>
             <input
               type="date"
               id="lost-date"
@@ -141,21 +139,23 @@
               required
             />
           </div>
-         
-        <div class="button-wrapper">
-        <button type="submit" class="submit-button">Submit {{ isReportLost ? 'Lost' : 'Found' }} Item</button>
-      </div>
-      </div>
-    </form>
+        </div>
+
+          <div class="button-wrapper">
+            <button type="submit" class="submit-button">
+              {{ isEditMode ? "Save Changes" : isReportLost ? "Submit Lost Item" : "Submit Found Item" }}
+            </button>
+          </div>
+      </form>
     </main>
   </div>
-<Footer/>
+  <Footer />
 </template>
 
 <script>
 import Navbar from "../components/Navbar.vue";
-import Footer from '@/components/Footer.vue';
-import { reportFoundItem } from "../util.js";
+import Footer from "@/components/Footer.vue";
+// import { reportFoundItem } from "../util.js";
 
 export default {
   name: "ReportLostPage",
@@ -166,6 +166,7 @@ export default {
   data() {
     return {
       isReportLost: true,
+      isEditMode: false,
       loading: true,
       user: { matriculationId: "" },
       lostItem: {
@@ -179,16 +180,20 @@ export default {
         contact: "",
         image: null,
         date: "",
-        
       },
     };
   },
   methods: {
     //Logic to fetch the Matriculation ID from DB
     async fetchUserDetails() {
-      this.loading = true; 
+      this.loading = true;
+      if (this.$route.query.edit) {
+    this.isEditMode = true;     
+  }
       try {
-        const storedMatriculationId = localStorage.getItem("loggedInUserMatriculationId");
+        const storedMatriculationId = localStorage.getItem(
+          "loggedInUserMatriculationId"
+        );
 
         if (storedMatriculationId) {
           this.user.matriculationId = storedMatriculationId;
@@ -205,18 +210,20 @@ export default {
           return;
         }
 
-      
-        const response = await fetch(`http://localhost:5001/users?email=${email}`);
+        const response = await fetch(
+          `http://localhost:5001/users?email=${email}`
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-
-
-        const data = await response.json(); 
+        const data = await response.json();
         if (data.length > 0) {
-          this.user.matriculationId = data[0].matriculationNumber; 
-          localStorage.setItem("loggedInUserMatriculationId", this.user.matriculationId);
+          this.user.matriculationId = data[0].matriculationNumber;
+          localStorage.setItem(
+            "loggedInUserMatriculationId",
+            this.user.matriculationId
+          );
           // console.log("Matriculation ID from API:", this.user.matriculationId);
         } else {
           alert("User not found. Please log in again.");
@@ -226,89 +233,37 @@ export default {
         console.error("Error fetching user details:", error);
         alert("Could not fetch user details. Please try again.");
         this.$router.push("/login");
-      }finally {
-      this.loading = false; // Reset loading state
-    }
-  },
+      } finally {
+        this.loading = false; // Reset loading state
+      }
+    },
     //Logic to handle the file (image) upload to the db.
     handleFileChange(event) {
       const file = event.target.files[0];
+
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.lostItem.image = e.target.result;
         };
-          reader.readAsDataURL(file);
-        }
-      },
-
-    //   validateForm() {
-    //   const requiredFields = ["name", "category", "color", "location", "contact", "description", "image", "date"];
-    //   for (const field of requiredFields) {
-    //     if (!this.lostItem[field]) {
-    //       alert(`Please fill in the ${field} field.`);
-    //       return false;
-    //     }
-    //   }
-    //   return true;
-    // },
-
-
-    //Logic for submitting lost item to db
-
-  async submitLostItem() {
-    if (!this.user.matriculationId) {
-      alert("You must be logged in to report a lost item.");
-      this.$router.push("/login");
-      return;
-    }
-    if (
-      !this.lostItem.name ||
-      !this.lostItem.category ||
-      !this.lostItem.color ||
-      !this.lostItem.location ||
-      !this.lostItem.contact ||
-      !this.lostItem.description ||
-      !this.lostItem.image ||
-      !this.lostItem.date
-
-    ) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    this.lostItem.id = Date.now().toString(); // Generate a unique ID
-
-    try {
-      const response = await fetch("http://localhost:5001/lostItems", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...this.lostItem,
-          matriculationId: this.user.matriculationId,
-          }),
-      });
-
-      if (response.ok) {
-        alert("Lost item reported successfully!");
-        this.resetForm();
-        this.$router.push("/LostItems");
-      } else {
-        throw new Error(`Error: ${response.statusText}`);
+        reader.readAsDataURL(file);
       }
-    } catch (error) {
-      console.error("Failed to report lost item:", error);
-      alert("Could not submit the form. Please try again.");
-    }
-  },
+    },
 
-  async submitFoundItem() {
-    if (!this.user.matriculationId) {
-      alert("You must be logged in to report a found item.");
-      this.$router.push("/login");
-      return;
-    }
-      // Validate required fields
+
+    async submitLostItem() {
+      if (this.$route.query.edit) {
+        await this.$store.dispatch("updateLostItem", this.lostItem);
+        alert("Item updated successfully!");
+        this.$router.push("/myposts");
+      }
+      else{
+        if (!this.user.matriculationId) {
+        alert("You must be logged in to report an item.");
+        this.$router.push("/login");
+        return;
+      }
+      
       if (
         !this.lostItem.name ||
         !this.lostItem.category ||
@@ -323,49 +278,175 @@ export default {
         return;
       }
 
-    this.lostItem.matriculationId = this.user.matriculationId;
+      this.lostItem.id = Date.now().toString(); // Generate a unique ID
 
-  try {
-        // Call the reportFoundItem function to save the found item
-        const response = await reportFoundItem(this.lostItem); 
+      try {
+        const saveResponse = await fetch("http://localhost:5001/lostItems", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...this.lostItem,
+            matriculationId: this.user.matriculationId,
+          }),
+        });
 
-        if (response.ok) {
-          alert("Found item reported successfully!");
-          this.resetForm();
-          this.$router.push("/myposts");
+        if (saveResponse.ok) {
+          const foundItemsResponse = await fetch(
+            "http://localhost:5001/foundItems"
+          );
+          const foundItems = await foundItemsResponse.json();
+          const matches = this.matchFoundItems(foundItems);
+
+          this.$router.push({
+            path: "/foundItems",
+            query: { matches: JSON.stringify(matches) },
+            name: "FoundItems",
+            params: { lostItem: this.lostItem },
+          });
         } else {
-          throw new Error(`Error: ${response.statusText}`);
+          throw new Error(`Error: ${saveResponse.statusText}`);
         }
       } catch (error) {
-        console.error("Failed to report found item:", error);
+        console.error("Failed to report item:", error);
         alert("Could not submit the form. Please try again.");
       }
+      }
+      
     },
-  
 
-resetForm() {
-  this.lostItem = {
-    id: null,
-    name: "",
-    category: "",
-    color: "",
-    location: "",
-    brand: "",
-    description: "",
-    contact: "",
-    image: null,
-    date: "",
-  };
+    // Logic for submitting found item
+    async submitFoundItem() {
+  if (this.isEditMode) {
+    try {
+      await this.$store.dispatch("updateFoundItem", this.lostItem); 
+      alert("Found Item updated successfully!");
+      this.$router.push("/myposts");
+    } catch (error) {
+      console.error("Error updating found item:", error);
+      alert("Failed to update Found Item.");
+    }
+  } else {
+    if (!this.user.matriculationId) {
+      alert("You must be logged in to report an item.");
+      this.$router.push("/login");
+      return;
+    }
+
+    if (
+      !this.lostItem.name ||
+      !this.lostItem.category ||
+      !this.lostItem.color ||
+      !this.lostItem.location ||
+      !this.lostItem.contact ||
+      !this.lostItem.description ||
+      !this.lostItem.image ||
+      !this.lostItem.date
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    this.lostItem.id = Date.now().toString();
+
+    try {
+      const response = await fetch("http://localhost:5001/foundItems", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...this.lostItem,
+          matriculationId: this.user.matriculationId,
+        }),
+      });
+
+      if (response.ok) {
+        alert("The found item has been successfully submitted.");
+        this.$router.push("/");
+      } else {
+        throw new Error("Failed to submit Found Item.");
+      }
+    } catch (error) {
+      console.error("Failed to submit found item:", error);
+      alert("Could not submit the form. Please try again.");
+    }
   }
 },
 
-  created() {
-    this.fetchUserDetails();
-    },
-  };
-  
+    matchFoundItems(foundItems) {
+      const matches = [];
 
- 
+      foundItems.forEach((foundItem) => {
+        let matchScore = 0;
+
+        // Check if any of the attributes match
+        if (
+          this.lostItem.name &&
+          foundItem.name
+            .toLowerCase()
+            .includes(this.lostItem.name.toLowerCase())
+        ) {
+          matchScore += 30; 
+        }
+        if (
+          this.lostItem.category &&
+          foundItem.category === this.lostItem.category
+        ) {
+          matchScore += 20; 
+        }
+        if (this.lostItem.color && foundItem.color === this.lostItem.color) {
+          matchScore += 20; 
+        }
+        if (
+          this.lostItem.location &&
+          foundItem.location === this.lostItem.location
+        ) {
+          matchScore += 10; 
+        }
+
+        // Add the found item to the matches if it has a non-zero match score
+        if (matchScore > 0) {
+          matches.push({ ...foundItem, matchScore });
+        }
+      });
+
+      // Sort matches by matchScore in descending order
+      matches.sort((a, b) => b.matchScore - a.matchScore);
+
+      return matches;
+    },
+
+    resetForm() {
+      this.lostItem = {
+        id: null,
+        name: "",
+        category: "",
+        color: "",
+        location: "",
+        brand: "",
+        description: "",
+        contact: "",
+        image: null,
+        date: "",
+      };
+    },
+  },
+
+  created() {
+    const matchesQuery = this.$route.query.matches;
+    this.matches = matchesQuery ? JSON.parse(matchesQuery) : [];
+    this.fetchUserDetails();      
+    if (this.$route.query.edit) {
+    this.isEditMode = true;  
+    
+    if (this.$route.query.isLostItem === "true") {
+      this.isReportLost = true;
+      this.lostItem = { ...this.$route.query };
+    } else {
+      this.isReportLost = false; 
+      this.lostItem = { ...this.$route.query };
+    }
+  }
+  },
+};
 </script>
 
 <style>
@@ -381,7 +462,7 @@ resetForm() {
   text-align: center;
 }
 
-.header h1  {
+.header h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -395,26 +476,12 @@ resetForm() {
   font-weight: bold;
 }
 
-
-/* .nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-} */
-
-/* .nav {
-  display: flex;
-  
-  align-items: center;
-  gap: 10px;
-} */
-
 #matriculation-id {
   width: 200px;
   padding: 8px;
   font-size: 12px;
-  border: 1px solid #ccc; 
-  border-radius: 6px; 
+  border: 1px solid #ccc;
+  border-radius: 6px;
   background-color: #f0f0f0;
   color: #333;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -432,7 +499,6 @@ resetForm() {
   align-items: center;
   gap: 10px;
 }
-
 
 .sign-out {
   width: 100px;
@@ -461,7 +527,6 @@ resetForm() {
 }
 
 .title {
-
   font-size: 30px;
   font-weight: 600px;
   margin-bottom: 20px;
@@ -474,7 +539,6 @@ resetForm() {
   justify-content: space-between;
   gap: 40px;
   position: relative;
- 
 }
 
 .form-group {
@@ -492,14 +556,13 @@ resetForm() {
   background-color: #f6f6f6;
 }
 
-.left-section, .right-section{
+.left-section,
+.right-section {
   flex: 1 1 50%;
   display: flex;
   flex-direction: column;
   gap: 35px;
 }
-
- 
 
 label {
   font-size: 14px;
@@ -509,19 +572,18 @@ label {
   margin-bottom: 5px;
 }
 
-
 input,
 select,
 textarea {
   padding: 20px;
   font-size: 14px;
-  border: 1px solid #D0DAFF;
+  border: 1px solid #d0daff;
   border-radius: 10px;
   width: 400px;
   background-color: #f6f6f6;
 }
 
-select{
+select {
   width: 440px;
 }
 
@@ -554,10 +616,9 @@ textarea {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  
 }
 
-.submit-button:hover{
+.submit-button:hover {
   background-color: #0c4c8f;
   transform: scale(1.05);
 }
@@ -572,9 +633,8 @@ textarea {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 48%;  /* Push toggle to the right */
+  margin-left: 48%; /* Push toggle to the right */
   margin-right: 0; /* Keep it centered */
-  
 }
 
 .switch {
@@ -615,7 +675,7 @@ textarea {
 }
 
 input:checked + .slider {
-  background-color:red; /* Green when Found */
+  background-color: red; /* Green when Found */
 }
 
 input:checked + .slider:before {
@@ -631,4 +691,3 @@ input:not(:checked) + .slider:before {
   transform: translateX(0); /* Keep slider button to the left */
 }
 </style>
-

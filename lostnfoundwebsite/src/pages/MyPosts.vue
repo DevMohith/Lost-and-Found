@@ -5,24 +5,34 @@
     <section>
       <h2>Lost Items</h2>
       <div v-if="myPosts.length" class="product-grid">
-        <LostItem v-for="post in myPosts" :key="post.id" :lostitem="post" mode="manage" />
+        <LostItem
+          v-for="post in myPosts"
+          :key="post.id"
+          :lostitem="post"
+          mode="manage"
+          @edit="handleLostEdit"
+          @delete="handleLostDelete"
+        />
       </div>
       <div v-else class="no-posts product-grid">
         <p>You have not posted any lost items yet.</p>
       </div>
     </section>
-    <!-- <section>
+    <section>
       <h2>Found Items</h2>
-      <div class="items-grid">
-        <div v-for="item in foundItems" :key="item.id" class="item-card">
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.description }}</p>
-          <p>Location: {{ item.location }}</p>
-          <p>Date: {{ item.date }}</p>
-        </div>
-        <p v-if="foundItems.length === 0">No found items posted.</p>
+      <div v-if="myFoundItems.length" class="product-grid">
+        <FoundItem
+          v-for="post in myFoundItems"
+          :key="post.id"
+          :founditem="post"
+          @edit="handleFoundEdit"
+          @delete="handleFoundDelete"
+        />
       </div>
-    </section> -->
+      <div v-else class="no-posts product-grid">
+        <p>You have not posted any found items yet.</p>
+      </div>
+    </section>
   </div>
   <Footer />
 </template>
@@ -31,6 +41,7 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import LostItem from "../components/LostItem.vue";
+import FoundItem from "../components/FoundItem.vue";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -39,15 +50,30 @@ export default {
     Navbar,
     Footer,
     LostItem,
+    FoundItem,
   },
   computed: {
-    ...mapState(["myPosts"]),
+    ...mapState(["myPosts", "myFoundItems"]),
   },
-   methods: {
-    ...mapActions(["fetchMyPosts"]),
+  methods: {
+  ...mapActions(["fetchMyPosts", "fetchMyFoundItems", "deleteLostItem", "deleteFoundItem"]),
+  handleLostEdit(item) {
+    this.$router.push({ name: "ReportLost", query: { edit: true, isLostItem: "true", ...item } });
   },
+  async handleLostDelete(id) {
+    await this.deleteLostItem(id);
+    this.fetchMyPosts();
+  },
+  handleFoundEdit(item) {
+    this.$router.push({ name: "ReportLost", query: { edit: true, isLostItem: "false", ...item } });
+  },
+  async handleFoundDelete(id) {
+    await this.deleteFoundItem(id);
+    this.fetchMyFoundItems();
+  },
+},
   async created() {
-    await this.fetchMyPosts();
+    await Promise.all([this.fetchMyPosts(), this.fetchMyFoundItems()]);
   },
 };
 </script>
@@ -59,7 +85,7 @@ export default {
 
 .product-grid {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 20px;
   justify-content: space-evenly;
   margin-left: 6rem;

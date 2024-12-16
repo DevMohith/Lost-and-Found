@@ -1,24 +1,47 @@
 <template>
   <header class="header">
-    <div class="logo">LOST & FOUND</div>
-    <nav class="nav">
-      <div class="router-links">
-        <router-link class="nav-link" to="/">Home</router-link>
-        <router-link class="nav-link" to="/LostItems">Lost Items</router-link>
-        <router-link class="nav-link" to="/ReportLost">Report Lost</router-link>
-        <router-link class="nav-link" to="/ReportFound">Report Found</router-link>
+    <div class="logo"><img src="../assets/logo.png" alt="Lost and Found Logo"></div>
+    <div class="router-links">
+        <router-link
+          class="nav-link"
+          active-class="active"
+          exact-active-class="active"
+          to="/"
+        >
+          Home
+        </router-link>
+        <router-link
+          class="nav-link"
+          active-class="active"
+          exact-active-class="active"
+          to="/LostItems"
+        >
+          Lost Items
+        </router-link>
+        <router-link
+          class="nav-link"
+          active-class="active"
+          exact-active-class="active"
+          to="/ReportLost"
+        >
+          Report
+        </router-link>
       </div>
+    <nav class="nav">
       <div class="profile-actions">
         <router-link
           v-if="!isUserLoggedIn"
           class="nav-link"
+          active-class="active"
           to="/login"
           style="border: 1px solid #0469ff; color: #0469ff; border-radius: 10px;"
         >
           Sign In
         </router-link>
         <div v-if="isUserLoggedIn" class="profile-dropdown">
-          <button class="nav-link dropdown-toggle" @click="toggleDropdown">Profile</button>
+          <button class="nav-link dropdown-toggle" @click="toggleDropdown">
+            Profile
+          </button>
           <div v-if="isDropdownVisible" class="dropdown-menu">
             <router-link class="dropdown-item" to="/myposts">My Posts</router-link>
             <router-link
@@ -48,8 +71,14 @@ export default {
   computed: {
     ...mapState(["user"]),
     isUserLoggedIn() {
-      return this.user !== null;
+      return this.user !== null || localStorage.getItem("loggedInUserEmail") !== null;
     },
+  },
+  mounted() {
+    const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
+    if (loggedInUserEmail && !this.user) {
+      this.$store.commit("userAuthenticated", loggedInUserEmail);
+    }
   },
   methods: {
     toggleDropdown() {
@@ -91,9 +120,11 @@ export default {
 
 .router-links {
   display: flex;
-  gap: 15px;
+  gap: 200px;
   padding: 10px;
   background-color: #fff;
+  border: 2px solid #0469ff;
+  border-radius: 50px;
 }
 
 .profile-actions {
@@ -105,9 +136,11 @@ export default {
 
 .nav-link {
   text-decoration: none;
-  color: #000;
+  color: #5B5966;
   padding: 5px 10px;
   cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 0.3s;
 }
 
 .nav-link.active {
