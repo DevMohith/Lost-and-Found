@@ -19,6 +19,9 @@
         <button class="edit-btn" @click="$emit('edit', lostitem)">Edit</button>
   <button class="delete-btn" @click="$emit('delete', lostitem.id)">Delete</button>
       </div>
+      <p v-if="showMatchScore" class="match-score">
+        Match Score: {{ lostitem.matchScore }}%
+      </p>
     </div>
   </div>
 </template>
@@ -35,6 +38,10 @@ export default {
       type: String,
       default: "view",
     },
+    showMatchScore: {
+      type: Boolean,
+      default: false,
+    },
   },
  
 };
@@ -42,14 +49,17 @@ export default {
 
 <style scoped>
 .product-card {
-  width: 20rem;
+  width: 250px; /* Fixed width */
+  min-height: 400px; /* Minimum height to align content */
+  margin: 10px; /* Add spacing */
   border: 1px solid #6889ff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 14px;
   background-color: #fff;
-  /* text-align: center; */
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .product-image {
@@ -107,5 +117,13 @@ export default {
 
 .delete-btn:hover {
   background-color: #ff4d4d;
+}
+
+.match-score {
+  padding-top: 10px;
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: bold;
 }
 </style>
