@@ -10,6 +10,13 @@
           <option value="Cafeteria">Cafeteria</option>
           <option value="Blue Tower">Blue Tower</option>
           <option value="Bonhoefferstraße 13">Bonhoefferstraße 13</option>
+          <option value="SRH Campus Tram station">SRH Campus Tram station</option>
+          <option value="Ochsenkopf Tram Station">Ochsenkopf Tram Station</option>
+          <option value="Bonhoefferstraße 9">Bonhoefferstraße 9</option>
+          <option value="SRH Parkplatz">SRH Parkplatz</option>
+          <option value="SRH Gym">SRH Gym</option>
+          <option value="MPS 3">MPS 3</option>
+          <option value="Others">Others</option>
         </select>
       </div>
 
