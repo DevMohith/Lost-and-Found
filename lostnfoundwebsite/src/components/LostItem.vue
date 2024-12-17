@@ -13,10 +13,7 @@
       <div v-else-if="mode === 'manage'">
         <button class="edit-btn" @click="$emit('edit', lostitem)">Edit</button>
   <button class="delete-btn" @click="$emit('delete', lostitem.id)">Delete</button>
-      </div>
-      <p v-if="showMatchScore" class="match-score">
-        Match Score: {{ lostitem.matchScore }}%
-      </p>
+      </div>      
     </div>
   </div>
 </template>
@@ -33,34 +30,28 @@ export default {
       type: String,
       default: "view",
     },
-    showMatchScore: {
-      type: Boolean,
-      default: false,
-    },
-  },
+      },
  
 };
 </script>
 
-<style scoped>
+<style>
 .product-card {
-  width: 250px; /* Fixed width */
-  min-height: 400px; /* Minimum height to align content */
-  margin: 10px; /* Add spacing */
-  border: 1px solid #6889ff;
+  width: 18rem;
+  border: 1px solid #6889FF;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 14px;
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  /* text-align: center; */
+  height: 100%;
 }
 
 .product-image {
-  width: 100%;
-  max-width: 20rem;
-  height: auto;
+  width: 100%;  
+  max-width: 18rem;
+  max-height: 19rem;
+  height: 100%;
   border-radius: 8px;
   margin-bottom: 15px;
 }
@@ -95,8 +86,7 @@ export default {
   background-color: #0056b3;
 }
 .edit-btn,
-.delete-btn {
-  background-color: #0469ff;
+.delete-btn {  
   color: white;
   border: none;
   border-radius: 5px;
@@ -105,20 +95,19 @@ export default {
   margin: 5px;
   transition: background-color 0.3s;
 }
+.edit-btn{
+  background-color: #ffa500;
+}
+.delete-btn{
+  background-color: #e80000;
+}
 
 .edit-btn:hover {
-  background-color: #ffa500;
+  background-color: #e5a125;
 }
 
 .delete-btn:hover {
-  background-color: #ff4d4d;
+  background-color: #ca0000;
 }
 
-.match-score {
-  padding-top: 10px;
-  margin: 0;
-  font-size: 0.9rem;
-  color: #555;
-  font-weight: bold;
-}
 </style>

@@ -29,8 +29,8 @@ export default {
 
 <style scoped>
 .product-card {
-  width: 20rem;
-  border: 1px solid #6889ff;
+  width: 18rem;
+  border: 1px solid #6889FF;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 14px;
@@ -40,9 +40,10 @@ export default {
 }
 
 .product-image {
-  width: 100%;
-  max-width: 20rem;
-  height: auto;
+  width: 100%;  
+  max-width: 18rem;
+  max-height: 19rem;
+  height: 100%;
   border-radius: 8px;
   margin-bottom: 15px;
 }
@@ -77,8 +78,7 @@ export default {
   background-color: #0056b3;
 }
 .edit-btn,
-.delete-btn {
-  background-color: #0469ff;
+.delete-btn {  
   color: white;
   border: none;
   border-radius: 5px;
@@ -88,11 +88,18 @@ export default {
   transition: background-color 0.3s;
 }
 
-.edit-btn:hover {
+.edit-btn{
   background-color: #ffa500;
+}
+.delete-btn{
+  background-color: #e80000;
+}
+
+.edit-btn:hover {
+  background-color: #e5a125;
 }
 
 .delete-btn:hover {
-  background-color: #ff4d4d;
+  background-color: #ca0000;
 }
 </style>

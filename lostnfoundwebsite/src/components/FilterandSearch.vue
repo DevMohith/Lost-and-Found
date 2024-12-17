@@ -119,7 +119,7 @@ export default {
   display: flex;
   align-items: center;
   position: relative;
-  width: 400px;
+  width: 470px;
   margin: 1rem;
 }
 

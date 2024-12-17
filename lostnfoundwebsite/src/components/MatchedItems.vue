@@ -1,76 +1,64 @@
 <template>
-  <div>
-    <Navbar />    
-    <div class="item-details" v-if="lostItem">
-      <img class="go-back" src="../assets/icons/back.png" @click="goBack">
-      <h2>{{ lostItem.name }}</h2>
+  <div>    
+    <div class="item-details" v-if="lostitem">
+      <h2>Matching Score - {{ lostitem.matchScore }}%</h2>
       <div class="details-container">
-        <img :src="lostItem.image" :alt="lostItem.name" class="item-image" />
+        <img :src="lostitem.image" :alt="lostitem.name" class="item-image" />
         <div class="details-content">
+          <p class="detailText">Item Name</p>
+          <strong
+            ><p>{{ lostitem.name }}</p></strong
+          >
           <p class="detailText">Lost Date</p>
           <strong
-            ><p>{{ lostItem.date }}</p></strong
+            ><p>{{ lostitem.date }}</p></strong
           >
           <p class="detailText">Lost Location</p>
           <strong
-            ><p>{{ lostItem.location }}</p></strong
+            ><p>{{ lostitem.location }}</p></strong
           >
           <p class="detailText">Item Category</p>
           <strong
-            ><p>{{ lostItem.category }}</p></strong
+            ><p>{{ lostitem.category }}</p></strong
           >
           <p class="detailText">Brand</p>
           <strong
-            ><p>{{ lostItem.brand }}</p></strong
+            ><p>{{ lostitem.brand }}</p></strong
           >
           <p class="detailText">Color</p>
           <strong
-            ><p>{{ lostItem.color }}</p></strong
+            ><p>{{ lostitem.color }}</p></strong
           >
           <!-- <button class="back-btn" @click="goBack">Back</button> -->
         </div>
         <div class="details-content">
           <p class="detailText">Description</p>
           <strong
-            ><p>{{ lostItem.description }}</p></strong
+            ><p>{{ lostitem.description }}</p></strong
           >
           <p class="detailText">Contact Information</p>
-          <strong><p>{{ lostItem.contact }}</p></strong>
+          <strong><p>{{ lostitem.contact }}</p></strong>          
         </div>
       </div>
-    </div>
-    <Footer/>
+    </div>    
   </div>
 </template>
 
 
 <script>
-import { mapState, mapActions } from "vuex";
-import Navbar from "../components/Navbar.vue";
-import Footer from "@/components/Footer.vue";
-
 export default {
-  name: "LostItemDetails",
-  components: {
-    Navbar,
-    Footer,
-  },
-  computed: {
-    ...mapState(["selectedLostItem"]),
-    lostItem() {
-      return this.selectedLostItem;
+  name: "MatchedItems",
+  props: {
+    lostitem: {
+        type:Object,
+        required:true,
     },
-  },
-  async created() {
-    const id = this.$route.params.id;
-    await this.fetchLostItemById(id);
-  },
-  methods: {
-    ...mapActions(["fetchLostItemById"]),
-    goBack() {
-      this.$router.push("/lostItems");
+    showMatchScore: {
+        type:Boolean,
+        default:false,
     },
-  },
+  },  
+  
 };
 </script>
 
@@ -121,9 +109,5 @@ export default {
   margin-top: 1rem;
   display: inline-block;
 }
-.go-back{
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-}
+
 </style>

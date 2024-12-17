@@ -2,7 +2,7 @@
   <Navbar />
   <div class="myposts-page">
     <h1>My Posts</h1>
-    <section>
+    <section class="lostSec">
       <h2>Lost Items</h2>
       <div v-if="myPosts.length" class="product-grid">
         <LostItem
@@ -98,5 +98,8 @@ export default {
   padding: 15px;
   border-radius: 10px;
   background: #fff;
+}
+.lostSec{
+  border-bottom: 1px solid #e0e0e0;
 }
 </style>

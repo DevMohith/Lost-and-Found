@@ -1,16 +1,21 @@
 <template>
     <div>
         <Navbar />
-        <h1>Matching Found Items</h1>
-        <div v-if="matches.length" class="card-container">
-      <LostItem
+        <div class="headnBack"><img class="go-back" src="../assets/icons/back.png" @click="goBack"><h1>Matching Found Items</h1></div>
+        <div v-if="matches.length" >
+      <!-- <LostItem
         v-for="(item, index) in matches"
         :key="index"
         :lostitem="item"
         mode="view"
         :showMatchScore="true"
         :matchScore="item.matchScore"
-      />
+      /> -->
+      <MatchedItems v-for="(item, index) in matches"
+        :key="index"
+        :lostitem="item"        
+        :showMatchScore="true"
+        :matchScore="item.matchScore"/>
     </div>
         <div v-else>
             <p>No matching items found.</p>
@@ -22,16 +27,22 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
-import LostItem from "@/components/LostItem.vue";
+//import LostItem from "@/components/LostItem.vue";
+import MatchedItems from '../components/MatchedItems.vue';
 
 export default {
     name: "FoundItems",
-    components: { Navbar, Footer, LostItem },
+    components: { Navbar, Footer, MatchedItems },
     data() {
         return {
             matches: [],
         };
     },
+    methods: {
+    goBack() {
+      this.$router.push("/lostItems");
+    },
+  },
     created() {
         const matchesQuery = this.$route.query.matches;
         if (matchesQuery) {
@@ -50,11 +61,14 @@ export default {
     background-color: #f9f9f9;
 }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap; /* Allows cards to wrap into the next row */
-  justify-content: center; /* Center the cards horizontally */
-  gap: 20px; /* Space between cards */
-  margin: 0 auto;
+.go-back{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.headnBack{
+    display: flex;
+  align-items: center;
+  gap: 10px;
 }
 </style>
