@@ -155,7 +155,6 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
-// import { reportFoundItem } from "../util.js";
 
 export default {
   name: "ReportLostPage",
@@ -184,24 +183,21 @@ export default {
     };
   },
   methods: {
-    //Logic to fetch the Matriculation ID from DB
+    //To dynamically fetch matriculation id from local storage or an api call
     async fetchUserDetails() {
       this.loading = true;
       if (this.$route.query.edit) {
     this.isEditMode = true;     
   }
       try {
-        const storedMatriculationId = localStorage.getItem(
-          "loggedInUserMatriculationId"
-        );
+        const storedMatriculationId = localStorage.getItem("loggedInUserMatriculationId");
 
         if (storedMatriculationId) {
           this.user.matriculationId = storedMatriculationId;
           this.loading = false;
-          // console.log("Matriculation ID from localStorage:", storedMatriculationId);
           return;
         }
-
+        
         const email = localStorage.getItem("loggedInUserEmail");
 
         if (!email) {
@@ -224,7 +220,6 @@ export default {
             "loggedInUserMatriculationId",
             this.user.matriculationId
           );
-          // console.log("Matriculation ID from API:", this.user.matriculationId);
         } else {
           alert("User not found. Please log in again.");
           this.$router.push("/login");
@@ -237,7 +232,9 @@ export default {
         this.loading = false; // Reset loading state
       }
     },
-    //Logic to handle the file (image) upload to the db.
+
+
+    
     handleFileChange(event) {
       const file = event.target.files[0];
 
