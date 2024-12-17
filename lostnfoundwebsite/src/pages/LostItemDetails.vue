@@ -2,8 +2,10 @@
   <div>
     <Navbar />    
     <div class="item-details" v-if="lostItem">
-      <img class="go-back" src="../assets/icons/back.png" @click="goBack">
-      <h2>{{ lostItem.name }}</h2>
+      <div class="heading">
+        <img class="go-back" src="../assets/icons/back.png" @click="goBack">
+        <h2>{{ lostItem.name }}</h2>
+      </div>
       <div class="details-container">
         <img :src="lostItem.image" :alt="lostItem.name" class="item-image" />
         <div class="details-content">
@@ -83,6 +85,11 @@ export default {
   flex-direction: column;
 }
 
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .details-container {
   display: flex;
   gap: 2rem;
