@@ -516,11 +516,11 @@ export default {
   justify-content: center;
   align-items: center;
   max-width: 995px;
-  height: 1000px;
+  max-height: 1000px;
   margin: 20px auto;
   padding: 20px;
   background-color: #fff;
-  border: 1px;
+  border: 1px solid #6889FF;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   gap: 37px;
@@ -561,7 +561,7 @@ export default {
   flex: 1 1 50%;
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  gap: 20px;
 }
 
 label {
@@ -628,13 +628,12 @@ textarea {
   transform: scale(1);
 }
 
-/* Styles for Toggle Button */
 .toggle-wrapper {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 48%; /* Push toggle to the right */
-  margin-right: 0; /* Keep it centered */
+  margin-left: 48%;
+  margin-right: 0; 
 }
 
 .switch {
@@ -675,19 +674,19 @@ textarea {
 }
 
 input:checked + .slider {
-  background-color: red; /* Green when Found */
+  background-color: red; 
 }
 
 input:checked + .slider:before {
-  transform: translateX(26px); /* Move slider button to the right */
+  transform: translateX(26px); 
 }
 
-/* When the checkbox is unchecked (for Lost) */
+
 input:not(:checked) + .slider {
-  background-color: green; /* Red when Lost */
+  background-color: green;
 }
 
 input:not(:checked) + .slider:before {
-  transform: translateX(0); /* Keep slider button to the left */
+  transform: translateX(0); 
 }
 </style>
