@@ -558,7 +558,7 @@ export default {
   flex: 1 1 50%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1px;
 }
 
 label {
