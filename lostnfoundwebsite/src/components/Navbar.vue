@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div class="logo"><img src="../assets/logo.png" alt="Lost and Found Logo"></div>
+    <div class="logo"><img src="../assets/logo.jpg" alt="Lost and Found Logo"></div>
     <div class="router-links">
         <router-link
           class="nav-link"

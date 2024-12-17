@@ -76,7 +76,7 @@
               <option>Library</option>
               <option>Bonhoefferstraße 13</option>
               <option>SRH Campus Tram station</option>
-              <option>Ochsenkof Tram Station</option>
+              <option>Ochsenkopf Tram Station</option>
               <Option>Bonhoefferstraße 9</Option>
               <Option>SRH Parkplatz</Option>
               <option>SRH Gym</option>
