@@ -129,8 +129,10 @@ export default {
   display: inline-block;
 }
 .go-back{
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
+    position: absolute;
+    left: 13rem;
 }
 </style>

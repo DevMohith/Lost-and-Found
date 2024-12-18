@@ -53,13 +53,16 @@ export default {
 }
 
 .go-back{
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
+    position: absolute;
+    left: 13rem;
 }
 .headnBack{
     display: flex;
   align-items: center;
   gap: 10px;
+  justify-content: center;
 }
 </style>
