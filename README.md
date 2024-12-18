@@ -1,7 +1,7 @@
 # Lost and Found
 
 ## Team Members
-1. Mohtih Tummala
+1. Mohith Tummala
 2. Neubin Sebastian
 3. Rohit Sardeshmukh
 4. Sriramkumar Raja Natarajan
@@ -10,7 +10,7 @@
 This app provides a valuable solution for individuals who have lost items by offering a simple and efficient platform to connect them with people who have found those items.
 
 ## Features
-1.	Create posts for lost and found items – Mohit Tummala.
+1.	Create posts for lost and found items – Mohith Tummala.
 2.	Searching and Filtering products by location or name, categories – Sriramkumar Raja Natarajan.
 3.	Edit and delete features of the post – Neubin Sebastian.
 4.	Login and Authentication – Rohit Sardeshmukh.
@@ -25,7 +25,7 @@ This app provides a valuable solution for individuals who have lost items by off
 6.	Product view more page development – Neubin Sebastian.
 7.	Profile page development – Neubin Sebastian.
 
-### Designing Pages and Prototype by Neubin Sebastian and Rohit Sardeshmukh
+### Designing Pages and Prototype by Neubin Sebastian, Rohit Sardeshmukh, Mohith Tummala
 
 ### Logo created by Sriramkumar Raja Natarajan
 
