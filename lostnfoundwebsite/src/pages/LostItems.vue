@@ -48,8 +48,15 @@ export default {
     updateFilteredItems(filtered) {
       this.filteredItems = filtered;
     },
+    redirectIfNotLoggedIn() {
+      if (!this.isLoggedIn) {
+        window.alert("User is not logged in. Please sign in.");
+        this.$router.push("/login");
+      }
+    },
   },
   async mounted() {
+    this.redirectIfNotLoggedIn();
     await this.fetchLostItems();
     this.filteredItems = this.lostItems;
   },
