@@ -3,14 +3,6 @@
         <Navbar />
         <div class="headnBack"><img class="go-back" src="../assets/icons/back.png" @click="goBack"><h1>Matching Found Items</h1></div>
         <div v-if="matches.length" >
-      <!-- <LostItem
-        v-for="(item, index) in matches"
-        :key="index"
-        :lostitem="item"
-        mode="view"
-        :showMatchScore="true"
-        :matchScore="item.matchScore"
-      /> -->
       <MatchedItems v-for="(item, index) in matches"
         :key="index"
         :lostitem="item"        
@@ -27,7 +19,6 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
-//import LostItem from "@/components/LostItem.vue";
 import MatchedItems from '../components/MatchedItems.vue';
 
 export default {
