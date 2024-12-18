@@ -399,6 +399,23 @@ export default {
           matchScore += 10; 
         }
 
+        if (
+      this.lostItem.brand &&
+      foundItem.brand &&
+      this.lostItem.brand.toLowerCase() === foundItem.brand.toLowerCase()
+    ) {
+      matchScore += 10;
+    }
+
+    // Check if the date matches (within a certain range for flexibility)
+    const lostDate = new Date(this.lostItem.date);
+    const foundDate = new Date(foundItem.date);
+    const dateDifference = Math.abs(lostDate - foundDate) / (1000 * 3600 * 24); // Difference in days
+
+    if (!isNaN(dateDifference) && dateDifference <= 7) {
+      matchScore += 10; // Add a score if the item was found within 7 days of being lost
+    }
+
         // Add the found item to the matches if it has a non-zero match score
         if (matchScore > 0) {
           matches.push({ ...foundItem, matchScore });
