@@ -49,7 +49,8 @@ export default {
       this.filteredItems = filtered;
     },
     redirectIfNotLoggedIn() {
-      if (!this.isLoggedIn) {
+      const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
+      if (!loggedInUserEmail) {
         window.alert("User is not logged in. Please sign in.");
         this.$router.push("/login");
       }
