@@ -14,13 +14,13 @@
         </div>
       </div>
       <div class="image-content">
-        <img src="../assets/lostLogo.png" alt="Lost Logo" />
+        <img src="../assets/images/lostLogo.png" alt="Lost Logo" />
       </div>
     </section>
 
     <section class="section found">
       <div class="image-content">
-        <img src="../assets/foundLogo.png" alt="Found Logo" />
+        <img src="../assets/images/foundLogo.png" alt="Found Logo" />
       </div>
       <div class="text-content">
         <h2><span class="highlight">Found</span> an Item? Good you are!</h2>

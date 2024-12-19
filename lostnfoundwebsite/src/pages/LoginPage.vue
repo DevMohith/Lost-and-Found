@@ -3,7 +3,7 @@
     <div class="login-page">
       <!-- Left Section -->
       <div class="illustration">
-        <img src="@/assets/illustration.jpg" alt="Illustration" />
+        <img src="@/assets/images/illustration.jpg" alt="Illustration" />
       </div>
   
       <!-- Right Section -->
