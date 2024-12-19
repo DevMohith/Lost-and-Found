@@ -147,6 +147,8 @@
             </button>
           </div>
       </form>
+      
+
     </main>
   </div>
   <Footer />
@@ -183,7 +185,7 @@ export default {
     };
   },
   methods: {
-    //To dynamically fetch matriculation id from local storage or an api call
+    
     async fetchUserDetails() {
       this.loading = true;
       if (this.$route.query.edit) {
@@ -229,7 +231,7 @@ export default {
         alert("Could not fetch user details. Please try again.");
         this.$router.push("/login");
       } finally {
-        this.loading = false; // Reset loading state
+        this.loading = false;
       }
     },
 
@@ -275,7 +277,7 @@ export default {
         return;
       }
 
-      this.lostItem.id = Date.now().toString(); // Generate a unique ID
+      this.lostItem.id = Date.now().toString();
 
       try {
         const saveResponse = await fetch("http://localhost:5001/lostItems", {
@@ -311,7 +313,7 @@ export default {
       
     },
 
-    // Logic for submitting found item
+   
     async submitFoundItem() {
   if (this.isEditMode) {
     try {
@@ -374,7 +376,7 @@ export default {
       foundItems.forEach((foundItem) => {
         let matchScore = 0;
 
-        // Check if any of the attributes match
+        // Checks if any of the attributes match
         if (
           this.lostItem.name &&
           foundItem.name
@@ -407,22 +409,22 @@ export default {
       matchScore += 10;
     }
 
-    // Check if the date matches (within a certain range for flexibility)
+    
     const lostDate = new Date(this.lostItem.date);
     const foundDate = new Date(foundItem.date);
-    const dateDifference = Math.abs(lostDate - foundDate) / (1000 * 3600 * 24); // Difference in days
+    const dateDifference = Math.abs(lostDate - foundDate) / (1000 * 3600 * 24);
 
     if (!isNaN(dateDifference) && dateDifference <= 7) {
-      matchScore += 10; // Add a score if the item was found within 7 days of being lost
+      matchScore += 10;
     }
 
-        // Add the found item to the matches if it has a non-zero match score
+      
         if (matchScore > 0) {
           matches.push({ ...foundItem, matchScore });
         }
       });
 
-      // Sort matches by matchScore in descending order
+      
       matches.sort((a, b) => b.matchScore - a.matchScore);
 
       return matches;
