@@ -1,7 +1,6 @@
 <template>
-  <div id="app" class="app">
+  <div id="Report" class="Report">
     <Navbar />
-
     <div class="header">
       <h1 class="title">{{ isReportLost ? "Report Lost" : "Report Found" }}</h1>
       <div class="toggle-wrapper">
@@ -236,7 +235,6 @@ export default {
     },
 
 
-    
     handleFileChange(event) {
       const file = event.target.files[0];
 
@@ -466,7 +464,7 @@ export default {
 </script>
 
 <style>
-.app {
+.Report {
   font-family: Arial, sans-serif;
   color: #000;
   background-color: #f8f8f8;
@@ -474,7 +472,7 @@ export default {
   margin: 0;
 }
 
-#app .header h1 {
+#Report .header h1 {
   text-align: center;
 }
 
