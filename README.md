@@ -29,9 +29,13 @@ This app provides a valuable solution for individuals who have lost items by off
 
 ### Logo created by Sriramkumar Raja Natarajan
 
-## How to run the application?
+## How to run the application? or simply follow our production URL below :)
 1. Download the repository.
 2. Change the directory to the repository folder.
 3. Run two terminals from the repository folder.
 4. To run the application, enter `npm run serve` in one of the terminals.
 5. In the other terminal, enter `npm run db` to initialise and run the database.
+
+## Deployment by Mohith Tummala
+Production URL: https://lostandfound-self.vercel.app/
+
