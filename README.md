@@ -27,7 +27,7 @@ This app provides a valuable solution for individuals who have lost items by off
 
 ### Designing Pages and Prototype by Neubin Sebastian, Rohit Sardeshmukh, Mohith Tummala
 
-### Logo created by Sriramkumar Raja Natarajan
+### Logo created by Sriramkumar Raja Natarajann
 
 ## How to run the application? or simply follow our production URL below :)
 1. Download the repository.
